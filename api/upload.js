@@ -1,6 +1,7 @@
 // POST /api/upload?name=photo.jpg&folder=projects — envoi d'un fichier par l'admin connecté.
 // Le corps de la requête est le fichier brut (image déjà convertie en WebP par le navigateur, ou PDF).
 // Réponse : { url } à enregistrer dans le champ du formulaire.
+import { BlobError } from '@vercel/blob';
 import { requireAdmin } from '../lib/auth.js';
 import { MAX_BYTES, store } from '../lib/storage.js';
 
@@ -42,6 +43,8 @@ export default async function handler(req, res) {
       return res.status(415).json({ error: 'Formats acceptés : WebP, JPEG, PNG et PDF.' });
     }
     console.error('api/upload', err);
+    // Erreur de Vercel Blob (clé, store, accès…) : message transmis tel quel, seul l'admin connecté le voit
+    if (err instanceof BlobError) return res.status(502).json({ error: `Vercel Blob : ${err.message}` });
     return res.status(500).json({ error: err.message.startsWith('Stockage') ? err.message : 'Envoi impossible.' });
   }
 }
