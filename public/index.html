@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="fr" class="is-loading">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Charbel Kinkpe · Développeur Full Stack & Cloud Native</title>
+  <meta name="description"
+    content="Portfolio de Sètondji Charbel Kinkpe, développeur Full Stack & Cloud Native basé à Parakou, Bénin. Projets, compétences, services et contact.">
+  <link rel="canonical" href="https://charbelkinkpe.com/">
+  <meta name="theme-color" content="#F1F2EE" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0E1412" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+
+  <!-- Aperçu lors d'un partage (LinkedIn, WhatsApp, X…) -->
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:url" content="https://charbelkinkpe.com/">
+  <meta property="og:title" content="Charbel Kinkpe · Développeur Full Stack & Cloud Native">
+  <meta property="og:description"
+    content="Projets, compétences et services de Sètondji Charbel Kinkpe, développeur basé à Parakou, Bénin.">
+  <meta property="og:image" content="https://charbelkinkpe.com/img/charbel.jpg">
+  <meta name="twitter:card" content="summary">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+  <noscript>
+    <style>
+      html.is-loading body {
+        visibility: visible;
+      }
+    </style>
+  </noscript>
+  <script src="js/data.js" defer></script>
+  <script src="js/main.js" defer></script>
+</head>
+
+<body>
+  <nav class="top" id="nav">
+    <div class="wrap">
+      <a class="logo" href="#top">CK<span>.</span></a>
+      <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="menu"
+        aria-label="Ouvrir le menu"><span></span></button>
+      <ul id="menu">
+        <li><a href="#apropos">À propos</a></li>
+        <li><a href="#competences">Compétences</a></li>
+        <li><a href="#projets">Projets</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#parcours">Expérience</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div id="home">
+    <header id="top" class="wrap hero">
+      <div class="hero-text">
+        <span class="status" id="status"></span>
+        <div>
+          <p class="eyebrow" id="given-names"></p>
+          <h1 id="name"></h1>
+        </div>
+        <p class="lede" id="intro"></p>
+        <div class="cta">
+          <a class="btn primary" href="#projets">Voir mes projets →</a>
+          <a class="btn" href="#contact">Me contacter</a>
+        </div>
+      </div>
+      <figure class="portrait" style="margin:0"><img id="photo" alt=""></figure>
+    </header>
+
+    <section class="band" id="apropos">
+      <div class="wrap">
+        <div class="label"><b>/</b> À propos</div>
+        <div class="body">
+          <h2 id="about-title"></h2>
+          <div class="prose" id="about"></div>
+          <p class="goal" id="goal"></p>
+          <div class="facts" id="facts"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="band" id="competences">
+      <div class="wrap">
+        <div class="label"><b>/</b> Compétences</div>
+        <div class="body">
+          <h2>Ma boîte à outils</h2>
+          <div class="skills" id="skills"></div>
+          <div class="soft" id="soft"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="band" id="projets">
+      <div class="wrap">
+        <div class="label"><b>/</b> Projets</div>
+        <div class="body">
+          <h2>Projets académiques et personnels</h2>
+          <div class="projects" id="project-grid"></div>
+          <div class="cta"><a class="btn" href="#tous-les-projets" id="all-btn">Voir tous les projets →</a></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="band" id="services">
+      <div class="wrap">
+        <div class="label"><b>/</b> Services</div>
+        <div class="body">
+          <h2>Services offerts</h2>
+          <div class="services" id="service-list"></div>
+          <div class="cta"><a class="btn primary" href="#contact">Discuter de votre projet →</a></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="band" id="parcours">
+      <div class="wrap">
+        <div class="label"><b>/</b> Expérience</div>
+        <div class="body">
+          <h2>Expérience professionnelle</h2>
+          <div class="track">
+            <ol class="timeline" id="timeline"></ol>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="band contact" id="contact">
+      <div class="wrap">
+        <div class="label"><b>/</b> Contact</div>
+        <div class="body">
+          <h2 id="contact-title"></h2>
+          <div class="mailrow">
+            <span class="mail" id="mail"></span>
+            <button class="btn" id="copy" type="button">Copier l'adresse</button>
+          </div>
+          <div class="socials" id="socials" aria-label="Réseaux et liens"></div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <main id="all" hidden>
+    <div class="wrap">
+      <a class="back" href="#projets">← Retour à l'accueil</a>
+      <header class="d-head">
+        <p class="eyebrow">Portfolio</p>
+        <h1>Tous les projets</h1>
+        <p class="tag" id="all-count"></p>
+      </header>
+      <div class="filters" id="filters" role="group" aria-label="Filtrer les projets"></div>
+      <div class="projects all-grid" id="all-grid"></div>
+    </div>
+  </main>
+
+  <main id="detail" hidden></main>
+
+  <footer>
+    <div class="wrap"><span id="copyright"></span><a href="#top">Retour en haut ↑</a></div>
+  </footer>
+</body>
+
+</html>

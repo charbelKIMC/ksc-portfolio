@@ -1,0 +1,4 @@
+# Fins de ligne identiques partout (Windows, GitHub, Vercel)
+* text=auto eol=lf
+*.jpg binary
+*.webp binary

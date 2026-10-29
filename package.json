@@ -1,0 +1,28 @@
+{
+  "name": "charbelkinkpe-portfolio",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "node --env-file-if-exists=.env scripts/dev.js",
+    "db:setup": "node --env-file=.env scripts/setup-db.js",
+    "db:reset": "node --env-file=.env scripts/setup-db.js --reset",
+    "test": "node --test",
+    "admin:password": "node scripts/admin-password.js"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^1.2.0",
+    "@vercel/blob": "^2.8.2",
+    "bcryptjs": "^3.0.3",
+    "jose": "^6.2.13",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "^0.5.13"
+  },
+  "overrides": {
+    "zod": "$zod"
+  }
+}
