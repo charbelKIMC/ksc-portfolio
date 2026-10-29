@@ -14,9 +14,6 @@ export const SECTIONS = {
           { name: 'givenNames', label: 'Prénoms (au-dessus du nom)', required: true },
           { name: 'firstName', label: 'Prénom affiché', required: true },
           { name: 'lastName', label: 'Nom', required: true },
-          { name: 'location', label: 'Ville', placeholder: 'Parakou, Bénin' },
-          { name: 'statusText', label: 'Statut', placeholder: 'ouvert aux opportunités' },
-          { name: 'available', label: 'Disponible (point vert dans l\'en-tête)', type: 'checkbox' },
           { name: 'intro', label: 'Présentation', type: 'textarea', help: 'Mets un passage entre **deux astérisques** pour l\'écrire en gras.' },
           { name: 'photoUrl', label: 'Photo', type: 'image', folder: 'profile', maxWidth: 1000, help: IMAGE_HELP }
         ]

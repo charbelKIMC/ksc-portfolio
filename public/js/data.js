@@ -210,7 +210,7 @@ const FALLBACK = {
     { name: 'Mobile', kind: 'tech', skills: ['Flutter', 'Android (Java, XML)', 'React Native'] },
     { name: 'Bases de données', kind: 'tech', skills: ['MySQL', 'PostgreSQL', 'MongoDB'] },
     { name: 'Langages', kind: 'tech', skills: ['Python', 'Java', 'C', 'C++'] },
-    { name: 'Outils', kind: 'tech', skills: ['Git & GitHub', 'Docker', 'VS Code', 'Android Studio', 'Figma'] },
+    { name: 'Outils', kind: 'tech', skills: ['Git & GitHub', 'VS Code', 'Android Studio', 'Figma'] },
     { name: 'Savoir-être', kind: 'soft', skills: ['Analyse et résolution de problèmes', 'Travail en équipe', 'Autonomie et rigueur', 'Gestion du temps et des priorités', 'Apprentissage continu', 'Communication écrite et orale', 'Adaptation aux nouvelles technologies'] }
   ],
 

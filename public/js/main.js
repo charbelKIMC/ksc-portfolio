@@ -8,7 +8,9 @@ const ICONS = {
   github: '<svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>',
   whatsapp: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 20.5l1.3-4.2A8.5 8.5 0 1 1 8 19.4z"/><path d="M9 8.5c0 3.5 3 6.5 6.5 6.5l1.2-1.6-2.2-1-1 1c-1.2-.5-2.4-1.7-2.9-2.9l1-1-1-2.2z" fill="currentColor" stroke-width="1"/></svg>',
   linkedin: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.5h4V21H3zM9.5 9.5h3.8v1.6h.06c.53-1 1.83-2.06 3.77-2.06 4.03 0 4.77 2.65 4.77 6.1V21h-4v-5.1c0-1.22-.02-2.79-1.7-2.79-1.7 0-1.96 1.33-1.96 2.7V21h-4z"/></svg>',
-  web: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9s1.3-6.4 3.8-9z"/></svg>'
+  web: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9s1.3-6.4 3.8-9z"/></svg>',
+  arrowLeft: '<svg class="icon-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>',
+  arrowRight: '<svg class="icon-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>'
 };
 
 const cardHTML = p => {
@@ -18,7 +20,7 @@ const cardHTML = p => {
     : `<canvas data-seed="${p.seed}" aria-hidden="true"></canvas>`;
   const code = p.code
     ? `<a class="code" href="${esc(p.code)}" target="_blank" rel="noopener">${ICONS.github}Code</a>`
-    : (p.demo ? `<a class="code" href="${esc(p.demo)}" target="_blank" rel="noopener">Démo ↗</a>` : '');
+    : (p.demo ? `<a class="code" href="${esc(p.demo)}" target="_blank" rel="noopener">Démo ${ICONS.web}</a>` : '');
   return `
   <article class="pcard">
     <div class="pc-media${p.logo ? ' logo-cover' : ''}">
@@ -32,7 +34,7 @@ const cardHTML = p => {
       <p>${esc(p.summary)}</p>
       ${chips(p.stack)}
     </div>
-    <div class="pc-foot"><span class="go">Voir le projet →</span>${code}</div>
+    <div class="pc-foot"><span class="go">Voir le projet </span>${code}</div>
   </article>`;
 };
 
@@ -75,7 +77,6 @@ function durationLabel(months) {
 }
 
 function renderProfile(p) {
-  $('status').innerHTML = `${p.available ? '<i></i>' : ''}${esc([p.location, p.statusText].filter(Boolean).join(' · '))}`;
   $('given-names').textContent = p.givenNames;
   $('name').innerHTML = `${esc(p.firstName)} <span class="last">${esc(p.lastName)}</span>`;
   $('intro').innerHTML = rich(p.intro);
@@ -132,7 +133,7 @@ function renderSocials(socials) {
 function renderProjects(projects) {
   PROJECTS = projects;
   $('project-grid').innerHTML = projects.filter(p => p.featured).map(cardHTML).join('');
-  $('all-btn').textContent = `Voir tous les projets (${projects.length}) →`;
+  $('all-btn').textContent = `Voir tous les projets (${projects.length}) `;
 }
 
 // Page « Tous les projets » avec filtres
@@ -158,11 +159,11 @@ function renderDetail(p) {
   const prev = PROJECTS[(i - 1 + PROJECTS.length) % PROJECTS.length];
   const next = PROJECTS[(i + 1) % PROJECTS.length];
   const actions = `<div class="d-actions">${p.demo
-      ? `<a class="btn primary" href="${esc(p.demo)}" target="_blank" rel="noopener">Voir la démo ↗</a>`
-      : `<span class="btn" aria-disabled="true">Démo bientôt disponible</span>`}${p.code ? `<a class="btn" href="${esc(p.code)}" target="_blank" rel="noopener">Voir le code ↗</a>` : ''}</div>`;
+      ? `<a class="btn primary" href="${esc(p.demo)}" target="_blank" rel="noopener">Voir la démo</a>`
+      : `<span class="btn" aria-disabled="true">Démo bientôt disponible</span>`}${p.code ? `<a class="btn" href="${esc(p.code)}" target="_blank" rel="noopener">Voir le code</a>` : ''}</div>`;
   document.getElementById('detail').innerHTML = `
     <div class="wrap">
-      <a class="back" href="#tous-les-projets">← Tous les projets</a>
+      <a class="back" href="#tous-les-projets">${ICONS.arrowLeft}Tous les projets</a>
       <header class="d-head">
         <div style="display:flex;gap:12px;align-items:center;font-family:var(--font-mono);font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em"><span>${esc(p.kind)}</span>${p.badge ? `<span class="pill live">${esc(p.badge)}</span>` : ''}</div>
         <h1>${esc(p.title)}</h1>
@@ -184,8 +185,8 @@ function renderDetail(p) {
         <dl class="d-side">${p.facts.map(f => `<div><dt>${esc(f.label)}</dt><dd>${esc(f.value)}</dd></div>`).join('')}</dl>
       </div>
       <nav class="d-nav" aria-label="Autres projets">
-        <a href="#${prev.id}"><small>← Projet précédent</small><span>${esc(prev.title)}</span></a>
-        <a class="next" href="#${next.id}"><small>Projet suivant →</small><span>${esc(next.title)}</span></a>
+        <a href="#${prev.id}"><small>${ICONS.arrowLeft}Projet précédent</small><span>${esc(prev.title)}</span></a>
+        <a class="next" href="#${next.id}"><small>Projet suivant${ICONS.arrowRight}</small><span>${esc(next.title)}</span></a>
       </nav>
     </div>`;
 }
