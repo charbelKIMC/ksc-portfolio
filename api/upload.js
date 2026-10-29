@@ -44,7 +44,7 @@ export default async function handler(req, res) {
     }
     console.error('api/upload', err);
     // Erreur de Vercel Blob (clé, store, accès…) : message transmis tel quel, seul l'admin connecté le voit
-    if (err instanceof BlobError) return res.status(502).json({ error: `Vercel Blob : ${err.message}` });
+    if (err instanceof BlobError) return res.status(502).json({ error: err.message });
     return res.status(500).json({ error: err.message.startsWith('Stockage') ? err.message : 'Envoi impossible.' });
   }
 }
