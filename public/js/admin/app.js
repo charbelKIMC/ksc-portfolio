@@ -236,8 +236,28 @@ $('login-form').addEventListener('submit', async e => {
   }
 });
 
+// Fenêtre de confirmation : renvoie true si l'admin valide, false s'il annule (bouton, Échap ou clic à côté)
+function askConfirm({ title, text, ok }) {
+  const dialog = $('confirm-dialog');
+  $('confirm-title').textContent = title;
+  $('confirm-text').textContent = text;
+  $('confirm-ok').textContent = ok;
+  dialog.returnValue = '';
+  dialog.showModal();
+  return new Promise(resolve => dialog.addEventListener('close', () => resolve(dialog.returnValue === 'ok'), { once: true }));
+}
+$('confirm-dialog').addEventListener('click', e => { if (e.target === e.currentTarget) e.currentTarget.close(); });
+
 $('logout').addEventListener('click', async () => {
-  if (dirty && !confirm('Tes modifications ne sont pas enregistrées. Te déconnecter quand même ?')) return;
+  const confirmed = await askConfirm({
+    title: 'Se déconnecter ?',
+    text: dirty
+      ? 'Tes modifications ne sont pas enregistrées : elles seront perdues.'
+      : 'Tu devras te reconnecter pour modifier le contenu du portfolio.',
+    ok: 'Se déconnecter'
+  });
+  if (!confirmed) return;
+  setMenu(false);
   await api('/api/auth', { method: 'DELETE' }).catch(() => {});
   showLogin();
 });
