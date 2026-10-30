@@ -159,8 +159,10 @@ label.check input { width: 18px; height: 18px; flex: none; accent-color: var(--a
   }
   .side.open .side-menu { display: flex; }
   #sections { padding: 8px; }
-  #sections a { font-size: 17px; padding: 13px 14px; }
-  .who { margin: 0; padding: 14px 16px 18px; border-top: 1px solid var(--line); grid-template-columns: 1fr 1fr; }
+  #sections a { font-size: 17px; padding: 13px 14px; color: var(--muted);}
+  #sections a:hover { color: var(--ink); background: var(--field); }
+  #sections a[aria-current="page"] { color: var(--accent); background: color-mix(in srgb, var(--accent) 9%, transparent); font-weight: 600; }
+  .who { margin: 0; padding: 14px 16px 18px; color: var(--muted); border-top: 1px solid var(--line); grid-template-columns: 1fr 1fr; }
   .who span { grid-column: 1 / -1; }
 
   .main { padding: 24px 16px 40px; }
