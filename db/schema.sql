@@ -26,7 +26,8 @@ create table if not exists projects (
   slug          text not null unique check (slug ~ '^[a-z0-9-]+$'),  -- adresse : #claimora
   title         text not null,
   kind          text not null default '',
-  badge         text,                           -- « En cours »
+  badge         text,                           -- ancien statut en texte libre, remplacé par status
+  status        text not null default 'done' check (status in ('in_progress', 'done')),
   year          text,
   categories    text[] not null default '{}',
   cover_url     text,
@@ -48,6 +49,13 @@ create table if not exists projects (
   created_at    timestamptz not null default now(),
   updated_at    timestamptz not null default now()
 );
+
+-- Statut des projets (octobre 2026) : « En cours » ou « Terminé » au lieu du texte libre badge.
+-- Sur une base existante : ajoute la colonne, puis reprend les anciens badges (« En cours » → in_progress)
+-- et les vide, pour que relancer db:setup ne change plus rien.
+alter table projects add column if not exists status text not null default 'done' check (status in ('in_progress', 'done'));
+update projects set status = case when lower(badge) like '%cours%' then 'in_progress' else status end, badge = null
+where badge is not null;
 
 create table if not exists project_images (
   id         serial primary key,

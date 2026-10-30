@@ -30,11 +30,11 @@ export async function seed(query, c) {
 
   for (const [i, r] of c.projects.entries()) {
     const [{ id }] = await query(
-      `insert into projects (slug, title, kind, badge, year, categories, cover_url, cover_is_logo, tagline, summary,
+      `insert into projects (slug, title, kind, status, year, categories, cover_url, cover_is_logo, tagline, summary,
                              about, features, steps_title, steps, role, stack, facts, demo_url, code_url, featured, position)
        values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14::jsonb, $15, $16, $17::jsonb, $18, $19, $20, $21)
        returning id`,
-      [r.id, r.title, r.kind, r.badge, r.year, r.cats, r.img, r.logo, r.tag, r.summary,
+      [r.id, r.title, r.kind, r.status, r.year, r.cats, r.img, r.logo, r.tag, r.summary,
        r.about, r.features, r.stepsTitle, JSON.stringify(r.steps), r.role, r.stack, JSON.stringify(r.facts),
        r.demo, r.code, r.featured, i]
     );

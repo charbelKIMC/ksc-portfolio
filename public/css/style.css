@@ -141,6 +141,9 @@ section.band > .wrap { padding-block: 64px; display: grid; grid-template-columns
 .project .meta { display: flex; justify-content: space-between; align-items: center; gap: 12px; font-family: var(--font-mono); font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
 .pill { font-family: var(--font-mono); font-size: 11px; padding: 3px 8px; border-radius: 999px; border: 1px solid currentColor; }
 .pill.live { color: var(--ok); }
+/* Statut d'un projet (page détails) : mêmes couleurs que sur les cartes */
+.pill.progress { background: var(--sun); border-color: var(--sun); color: #1D1606; }
+.pill.done { background: var(--ok); border-color: var(--ok); color: #fff; }
 .project h3 { font-size: 22px; font-weight: 600; letter-spacing: -0.02em; }
 .project .tag { font-style: italic; color: var(--ink); font-size: 15px; }
 .project p { color: var(--muted); font-size: 15px; }
@@ -253,7 +256,7 @@ footer .wrap { padding-block: 28px 40px; display: flex; justify-content: space-b
 .pcard:hover .pc-media::after { opacity: .55; }
 .pc-cats { position: absolute; z-index: 1; top: 14px; left: 14px; right: 110px; font-family: var(--font-mono); font-size: 10px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: #FFFFFF; padding: 2px 10px; border-radius: 8px; background: rgba(43, 63, 214, .55); backdrop-filter: blur(6px); width: fit-content; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: calc(100% - 130px); }
 .pc-status { position: absolute; z-index: 1; top: 14px; right: 14px; font-family: var(--font-mono); font-size: 10px; font-weight: 500; letter-spacing: .06em; padding: 2px 10px; border-radius: 8px; background: var(--sun); color: #1D1606; }
-.pc-status.done { background: rgba(255, 255, 255, .9); color: #141B18; }
+.pc-status.done { background: var(--ok); color: #fff; }
 .pc-icon { position: absolute; z-index: 1; top: 50%; left: 50%; width: 52px; height: 52px; margin: -26px 0 0 -26px; border-radius: 14px; display: grid; place-items: center; color: #FFFFFF; background: rgba(255, 255, 255, .16); border: 1px solid rgba(255, 255, 255, .35); backdrop-filter: blur(8px); font-family: var(--font-mono); font-size: 16px; transition: transform .25s ease, background .25s ease; }
 
 .pc-body { padding: 22px 22px 0; display: flex; flex-direction: column; gap: 12px; flex: 1; }

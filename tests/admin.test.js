@@ -117,3 +117,13 @@ test('liens de contact : https, mailto ou tel seulement', async () => {
   assert.equal((await call('socials', { method: 'POST', body: { label: 'X', url: 'https://x.com/charbel' } })).statusCode, 201);
   assert.equal((await call('socials', { method: 'POST', body: { label: 'Piège', url: 'javascript:alert(1)' } })).statusCode, 400);
 });
+
+test('projet : statut En cours ou Terminé seulement', async () => {
+  const created = await call('projects', { method: 'POST', body: { slug: 'statut-test', title: 'Statut', status: 'in_progress' } });
+  assert.equal(created.data.status, 'in_progress');
+  const bad = await call('projects', { method: 'PUT', id: created.data.id, body: { slug: 'statut-test', title: 'Statut', status: 'fini' } });
+  assert.equal(bad.statusCode, 400);
+  assert.ok(bad.data.fields.status);
+  const noStatus = await call('projects', { method: 'POST', body: { slug: 'sans-statut', title: 'Sans statut' } });
+  assert.equal(noStatus.data.status, 'done');
+});

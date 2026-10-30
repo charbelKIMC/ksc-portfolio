@@ -13,8 +13,12 @@ const ICONS = {
   arrowRight: '<svg class="icon-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>'
 };
 
+// Statut d'un projet : « En cours » (jaune) ou « Terminé » (vert)
+const STATUS = { in_progress: 'En cours', done: 'Terminé' };
+const statusHTML = (p, cls) => `<span class="${cls} ${p.status === 'in_progress' ? 'progress' : 'done'}">${STATUS[p.status] || STATUS.done}</span>`;
+
 const cardHTML = p => {
-  const status = p.badge ? `<span class="pc-status">${esc(p.badge)}</span>` : (p.year ? `<span class="pc-status done">${esc(p.year)}</span>` : '');
+  const status = statusHTML(p, 'pc-status');
   const media = p.img
     ? `<img src="${p.img}" alt="" loading="lazy">`
     : `<canvas data-seed="${p.seed}" aria-hidden="true"></canvas>`;
@@ -165,7 +169,7 @@ function renderDetail(p) {
     <div class="wrap">
       <a class="back" href="#tous-les-projets">${ICONS.arrowLeft}Tous les projets</a>
       <header class="d-head">
-        <div style="display:flex;gap:12px;align-items:center;font-family:var(--font-mono);font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em"><span>${esc(p.kind)}</span>${p.badge ? `<span class="pill live">${esc(p.badge)}</span>` : ''}</div>
+        <div style="display:flex;gap:12px;align-items:center;font-family:var(--font-mono);font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em"><span>${esc(p.kind)}</span>${p.year ? `<span>${esc(p.year)}</span>` : ''}${statusHTML(p, 'pill')}</div>
         <h1>${esc(p.title)}</h1>
         <p class="tag">${esc(p.tag)}</p>
         ${actions}

@@ -41,11 +41,11 @@ export const SECTIONS = {
     title: 'Projets',
     one: 'un projet',
     ordered: true,
-    empty: { published: true, featured: false, cats: [], stack: [], about: [], features: [], steps: [], facts: [], gallery: [] },
+    empty: { status: 'in_progress', published: true, featured: false, cats: [], stack: [], about: [], features: [], steps: [], facts: [], gallery: [] },
     summary: p => ({
       title: p.title,
       sub: [p.kind, p.cats.join(' / ')].filter(Boolean).join(' · '),
-      badges: [!p.published && 'Brouillon', p.featured && 'À la une', p.badge].filter(Boolean),
+      badges: [!p.published && 'Brouillon', p.featured && 'À la une', p.status === 'in_progress' ? 'En cours' : 'Terminé'].filter(Boolean),
       link: p.published ? `/#${p.slug}` : null
     }),
     groups: [
@@ -55,7 +55,7 @@ export const SECTIONS = {
           { name: 'title', label: 'Titre', required: true },
           { name: 'slug', label: 'Adresse de la page', required: true, help: 'charbelkinkpe.com/#adresse — remplie à partir du titre.' },
           { name: 'kind', label: 'Type', placeholder: 'SaaS · Web & mobile' },
-          { name: 'badge', label: 'Statut sur la carte', placeholder: 'En cours', help: 'Vide : l\'année est affichée à la place.' },
+          { name: 'status', label: 'Statut', type: 'select', options: [['in_progress', 'En cours'], ['done', 'Terminé']], help: 'Affiché sur la carte et sur la page du projet.' },
           { name: 'year', label: 'Année', placeholder: '2026' },
           { name: 'cats', label: 'Catégories (filtres)', type: 'tags', placeholder: 'Web, Mobile, Personnel', help: 'Séparées par des virgules.' },
           { name: 'published', label: 'Publié (visible sur le site)', type: 'checkbox' },

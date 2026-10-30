@@ -24,9 +24,10 @@ const FALLBACK = {
 
   // Projets : cartes de l'accueil (featured), page « Tous les projets » et page détails (#slug).
   // Un bouton démo ou code apparaît dès que demo ou code est renseigné.
+  // status : 'in_progress' (En cours) ou 'done' (Terminé).
   projects: [
     {
-      id: 'claimora', seed: 1, featured: true, title: 'Claimora', kind: 'SaaS · Web & mobile', badge: 'En cours', year: null,
+      id: 'claimora', seed: 1, featured: true, title: 'Claimora', kind: 'SaaS · Web & mobile', status: 'in_progress', year: null,
       cats: ['SaaS', 'Web', 'Mobile', 'Personnel'],
       img: 'img/claimora.webp', logo: false,
       tag: 'Plateforme SaaS multi-tenant de gestion des réclamations clients',
@@ -63,7 +64,7 @@ const FALLBACK = {
       demo: null, code: null
     },
     {
-      id: 'soko', seed: 2, featured: true, title: 'SOKO', kind: 'Fintech · Mobile', badge: null, year: null,
+      id: 'soko', seed: 2, featured: true, title: 'SOKO', kind: 'Fintech · Mobile', status: 'done', year: null,
       cats: ['Mobile', 'Fintech'],
       img: 'img/soko.webp', logo: false,
       tag: "Super-app fintech pensée pour l'Afrique de l'Ouest",
@@ -93,7 +94,7 @@ const FALLBACK = {
       demo: null, code: null
     },
     {
-      id: 'foodies', seed: 4, featured: true, title: 'Restaurant Foodies', kind: 'Commande en ligne · Web & mobile', badge: null, year: null,
+      id: 'foodies', seed: 4, featured: true, title: 'Restaurant Foodies', kind: 'Commande en ligne · Web & mobile', status: 'done', year: null,
       cats: ['Web', 'Mobile'],
       img: 'img/foodies.webp', logo: false,
       tag: 'Vos plats préférés, livrés à votre porte en un clic',
@@ -125,7 +126,7 @@ const FALLBACK = {
       demo: null, code: null
     },
     {
-      id: 'devhub', seed: 3, featured: true, title: 'DevHub', kind: 'Mémoire de Licence 3', badge: null, year: '2026',
+      id: 'devhub', seed: 3, featured: true, title: 'DevHub', kind: 'Mémoire de Licence 3', status: 'done', year: '2026',
       cats: ['Web', 'Académique'],
       img: 'img/devhub-logo.jpg', logo: true,
       tag: 'Plateforme de mise en réseau pour développeurs juniors au Bénin',
@@ -150,7 +151,7 @@ const FALLBACK = {
       demo: null, code: null
     },
     {
-      id: 'wifi-zone', seed: 5, featured: false, title: 'Wifi Zone', kind: 'Projet en cours', badge: 'En cours', year: null,
+      id: 'wifi-zone', seed: 5, featured: false, title: 'Wifi Zone', kind: 'Projet en cours', status: 'in_progress', year: null,
       cats: ['Personnel'],
       img: null, logo: false,
       tag: 'Projet en cours de développement',

@@ -36,3 +36,21 @@ test('une base sans profil renvoie une erreur claire', async () => {
   const query = await freshDb();
   await assert.rejects(getContent(query), /Profil absent/);
 });
+
+test('mise à jour de la base : les anciens badges « En cours » deviennent le statut in_progress, une seule fois', async () => {
+  const query = await freshDb();
+  await seed(query, await loadFallback());
+  // Base d'avant la colonne status : statut en texte libre dans badge
+  await query("update projects set status = 'done', badge = 'En cours' where slug in ('claimora', 'wifi-zone')");
+  await query("update projects set badge = '2026' where slug = 'devhub'");
+  const rerun = async () => { for (const statement of await loadSchema()) await query(statement); };
+  await rerun();
+  const rows = await query('select slug, status, badge from projects order by slug');
+  assert.deepEqual(rows.filter(r => r.status === 'in_progress').map(r => r.slug), ['claimora', 'wifi-zone']);
+  assert.ok(rows.every(r => r.badge === null));
+  // Statut changé ensuite dans l'admin : relancer db:setup ne le remet pas à « En cours »
+  await query("update projects set status = 'done' where slug = 'claimora'");
+  await rerun();
+  const [claimora] = await query("select status from projects where slug = 'claimora'");
+  assert.equal(claimora.status, 'done');
+});
