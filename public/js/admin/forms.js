@@ -24,7 +24,7 @@ function uploadHTML(f, value, inputAttrs) {
       <input type="text" ${inputAttrs} value="${esc(value)}" placeholder="${isPdf ? 'https://…' : 'img/… ou https://…'}">
       <div class="upload-actions">
         <label class="btn small pick">${isPdf ? 'Choisir un PDF' : 'Choisir une image'}<input class="sr-only" type="file"
-          accept="${isPdf ? 'application/pdf' : 'image/*'}" data-kind="${isPdf ? 'pdf' : 'image'}"
+          accept="${isPdf ? 'application/pdf' : 'image/*'}" data-kind="${isPdf ? 'pdf' : 'image'}"${f.multiple ? ' multiple' : ''}
           data-folder="${f.folder || 'projects'}" data-max="${f.maxWidth || 1600}"></label>
         <span class="upload-status" aria-live="polite"></span>
       </div>
@@ -115,17 +115,11 @@ export function bindForm(form, groups) {
     preview.hidden = !src;
   });
 
-  // Fichier choisi : conversion (images), envoi, puis adresse remplie dans le champ
-  form.addEventListener('change', async e => {
-    const picker = e.target;
-    if (picker.type !== 'file' || !picker.files[0]) return;
-    const box = picker.closest('.upload');
+  // Un fichier dans une zone d'envoi : conversion (images), envoi, puis adresse remplie dans le champ
+  async function sendInto(box, file, { kind, folder, max }) {
     const field = box.querySelector('input[type="text"]');
     const status = box.querySelector('.upload-status');
-    const file = picker.files[0];
-    const { kind, folder, max } = picker.dataset;
     const setStatus = (text, error = false) => { status.textContent = text; status.classList.toggle('error', error); };
-    picker.disabled = true;
     try {
       setStatus(kind === 'pdf' ? 'Vérification…' : 'Conversion en WebP…');
       const blob = kind === 'pdf' ? preparePdf(file) : await prepareImage(file, Number(max));
@@ -135,10 +129,30 @@ export function bindForm(form, groups) {
       setStatus('Envoyé ✓ — pense à enregistrer.');
     } catch (err) {
       setStatus(err.message, true);
-    } finally {
-      picker.disabled = false;
-      picker.value = '';
     }
+  }
+
+  // Fichier(s) choisi(s). Plusieurs images dans une galerie : une ligne est ajoutée pour chacune, à la suite.
+  form.addEventListener('change', async e => {
+    const picker = e.target;
+    if (picker.type !== 'file' || !picker.files.length) return;
+    const files = [...picker.files];
+    const options = { ...picker.dataset };
+    picker.value = '';
+    const boxes = [picker.closest('.upload')];
+    const row = picker.closest('.row');
+    if (row && files.length > 1) {
+      const f = byName[row.closest('[data-rows]').dataset.rows];
+      let last = row;
+      for (let i = 1; i < files.length; i++) {
+        last.insertAdjacentHTML('afterend', rowHTML(f));
+        last = last.nextElementSibling;
+        boxes.push(last.querySelector('.upload'));
+      }
+    }
+    picker.disabled = true;
+    for (const [i, file] of files.entries()) await sendInto(boxes[i], file, options);   // un envoi à la fois
+    picker.disabled = false;
   });
 }
 

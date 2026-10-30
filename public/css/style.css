@@ -202,11 +202,18 @@ a.project { color: inherit; text-decoration: none; cursor: pointer; }
 .d-cover.logo-cover img { width: auto; max-height: 360px; padding: 24px; }
 .d-actions { display: flex; flex-wrap: wrap; gap: 12px; }
 .btn[aria-disabled="true"] { opacity: .55; cursor: default; transform: none; }
-.gallery { display: grid; gap: 16px; }
-.gallery figure { margin: 0; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: #FFFFFF; }
-.gallery img { display: block; width: 100%; height: auto; }
-.gallery figure.logo img { max-width: 360px; margin: 0 auto; padding: 16px; }
-.gallery figcaption { font-size: 14px; color: var(--muted); padding: 10px 14px; background: var(--surface); border-top: 1px solid var(--line); }
+/* Visuels d'un projet : grille de vignettes de même taille, sans légende ; un clic ouvre l'image en grand */
+.gallery { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 900px) { .gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.gallery .shot { display: block; width: 100%; padding: 0; aspect-ratio: 4 / 3; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: #FFFFFF; cursor: zoom-in; }
+.gallery .shot img { display: block; width: 100%; height: 100%; object-fit: cover; transition: scale .3s ease; }
+.gallery .shot:hover img { scale: 1.04; }
+.gallery .shot.logo img { object-fit: contain; padding: 12%; }
+
+.lightbox { width: min(1200px, calc(100vw - 32px)); max-height: calc(100vh - 32px); padding: 0; border: 0; border-radius: 12px; background: #0E1412; overflow: hidden; }
+.lightbox::backdrop { background: rgb(14 20 18 / .85); }
+.lightbox img { display: block; width: 100%; max-height: calc(100vh - 32px); object-fit: contain; }
+.lightbox button { position: absolute; top: 10px; right: 10px; width: 40px; height: 40px; border: 0; border-radius: 50%; background: rgb(255 255 255 / .9); color: #141B18; font-size: 22px; line-height: 1; cursor: pointer; }
 .steps { list-style: none; padding: 0 !important; counter-reset: step; display: grid; gap: 10px !important; }
 .steps li { counter-increment: step; display: grid; grid-template-columns: 36px 1fr; gap: 12px; align-items: start; }
 .steps li::before { content: counter(step); font-family: var(--font-mono); font-size: 14px; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: var(--accent); color: var(--accent-ink); }

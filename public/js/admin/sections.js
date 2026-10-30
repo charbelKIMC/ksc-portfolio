@@ -90,7 +90,8 @@ export const SECTIONS = {
           { name: 'img', label: 'Image de la carte', type: 'image', folder: 'projects', help: IMAGE_HELP },
           { name: 'logo', label: 'Cette image est un logo (affichée en entier, sans recadrage)', type: 'checkbox' },
           { name: 'gallery', label: 'Visuels de la page', type: 'rows', addLabel: 'Ajouter un visuel',
-            columns: [{ name: 'src', label: 'Image', type: 'image', folder: 'projects' }, { name: 'caption', label: 'Légende' }, { name: 'logo', label: 'Logo', type: 'checkbox' }] }
+            help: 'Affichés en grille sur la page du projet. Tu peux choisir plusieurs images d\'un coup : une ligne est créée pour chacune.',
+            columns: [{ name: 'src', label: 'Image', type: 'image', folder: 'projects', multiple: true }, { name: 'logo', label: 'Logo', type: 'checkbox' }] }
         ]
       },
       {

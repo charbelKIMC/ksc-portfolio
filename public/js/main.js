@@ -183,7 +183,7 @@ function renderDetail(p) {
           ${p.role ? `<section><h2>Mon rôle</h2><p>${esc(p.role)}</p></section>` : ''}
           ${p.stack.length ? `<section><h2>Technologies</h2>${chips(p.stack)}</section>` : ''}
           <section><h2>Visuels</h2>${p.gallery.length
-            ? `<div class="gallery">${p.gallery.map(g => `<figure class="${g.logo ? 'logo' : ''}"><img src="${esc(g.src)}" alt="${esc(g.caption)}" loading="lazy"><figcaption>${esc(g.caption)}</figcaption></figure>`).join('')}</div>`
+            ? `<div class="gallery">${p.gallery.map((g, i) => `<button class="shot${g.logo ? ' logo' : ''}" type="button" data-full="${esc(g.src)}" aria-label="Agrandir le visuel ${i + 1}"><img src="${esc(g.src)}" alt="${esc(g.caption || `Visuel ${i + 1} du projet ${p.title}`)}" loading="lazy"></button>`).join('')}</div>`
             : `<p class="d-todo">Les visuels de ce projet seront bientôt disponibles.</p>`}</section>
         </div>
         <dl class="d-side">${p.facts.map(f => `<div><dt>${esc(f.label)}</dt><dd>${esc(f.value)}</dd></div>`).join('')}</dl>
@@ -305,4 +305,19 @@ document.getElementById('copy').addEventListener('click', e => {
     const sel = getSelection(); sel.removeAllRanges(); sel.addRange(range);
     btn.textContent = 'Appuie sur Ctrl+C';
   });
+});
+
+// Visuels d'un projet : un clic sur une vignette ouvre l'image entière en grand (fermeture : ✕, Échap ou clic à côté)
+const lightbox = document.createElement('dialog');
+lightbox.className = 'lightbox';
+lightbox.innerHTML = '<img alt=""><button type="button" aria-label="Fermer">×</button>';
+document.body.append(lightbox);
+lightbox.addEventListener('click', e => { if (e.target === lightbox || e.target.closest('button')) lightbox.close(); });
+document.getElementById('detail').addEventListener('click', e => {
+  const shot = e.target.closest('.shot');
+  if (!shot) return;
+  const img = lightbox.querySelector('img');
+  img.src = shot.dataset.full;
+  img.alt = shot.querySelector('img').alt;
+  lightbox.showModal();
 });
