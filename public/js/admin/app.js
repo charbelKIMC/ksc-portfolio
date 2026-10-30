@@ -112,7 +112,12 @@ async function renderList(name, body) {
         body.querySelector(`[data-index="${j}"][data-move="${move.dataset.move}"]`)?.focus();
         toast(SAVED);
       }
-      if (del && confirm(`Supprimer « ${del.dataset.label} » ? Cette action est définitive.`)) {
+      if (del && await askConfirm({
+        title: `Supprimer « ${del.dataset.label} » ?`,
+        text: 'Cette action est définitive : l\'élément disparaîtra aussi du site.',
+        ok: 'Supprimer',
+        danger: true
+      })) {
         await api(`/api/admin/${name}?id=${del.dataset.delete}`, { method: 'DELETE' });
         await renderList(name, body);
         toast('Supprimé.');
@@ -237,14 +242,29 @@ $('login-form').addEventListener('submit', async e => {
 });
 
 // Fenêtre de confirmation : renvoie true si l'admin valide, false s'il annule (bouton, Échap ou clic à côté)
-function askConfirm({ title, text, ok }) {
+// danger : bouton de validation en rouge, pour les actions définitives
+function askConfirm({ title, text, ok, danger = false }) {
   const dialog = $('confirm-dialog');
   $('confirm-title').textContent = title;
   $('confirm-text').textContent = text;
   $('confirm-ok').textContent = ok;
+  $('confirm-ok').classList.toggle('danger-fill', danger);
   dialog.returnValue = '';
   dialog.showModal();
-  return new Promise(resolve => dialog.addEventListener('close', () => resolve(dialog.returnValue === 'ok'), { once: true }));
+  // Réponse lue au clic (submit), sans attendre l'événement close qui peut arriver en retard ;
+  // close reste la voie de sortie pour Échap et le clic à côté.
+  const form = dialog.querySelector('form');
+  return new Promise(resolve => {
+    const finish = confirmed => {
+      form.removeEventListener('submit', onSubmit);
+      dialog.removeEventListener('close', onClose);
+      resolve(confirmed);
+    };
+    const onSubmit = e => finish(e.submitter?.value === 'ok');
+    const onClose = () => finish(dialog.returnValue === 'ok');
+    form.addEventListener('submit', onSubmit);
+    dialog.addEventListener('close', onClose);
+  });
 }
 $('confirm-dialog').addEventListener('click', e => { if (e.target === e.currentTarget) e.currentTarget.close(); });
 

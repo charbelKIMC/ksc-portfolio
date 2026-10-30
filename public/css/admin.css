@@ -207,3 +207,4 @@ label.check input { width: 18px; height: 18px; flex: none; accent-color: var(--a
 .dialog p { margin: 0; color: var(--muted); }
 .dialog-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 8px; }
 @media (max-width: 640px) { .dialog-actions .btn { flex: 1; } }
+.btn.danger-fill { background: var(--danger); border-color: var(--danger); color: #fff; }
