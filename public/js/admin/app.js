@@ -79,7 +79,7 @@ async function renderList(name, body) {
   body.innerHTML = `
     <div class="list-head">
       <p class="muted">${items.length} élément${items.length > 1 ? 's' : ''}${s.ordered ? ' · même ordre que sur le site' : ''}${s.note ? `. ${esc(s.note)}` : ''}</p>
-      <a class="btn primary" href="#${name}/new">+ Ajouter ${esc(s.one)}</a>
+      <a class="btn primary" href="#${name}/new">Ajouter ${esc(s.one)}</a>
     </div>
     ${items.length ? `<ul class="items">${items.map((item, i) => {
       const v = s.summary(item);

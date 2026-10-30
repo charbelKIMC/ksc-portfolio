@@ -34,21 +34,20 @@ body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--f
 h1, h2, h3 { font-family: var(--font-display); margin: 0; letter-spacing: -0.02em; }
 a { color: inherit; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
-.muted { color: var(--muted); margin: 0; }
+.muted { color: var(--muted); margin: 0;  text-align: center; }
 .small { font-size: 14px; }
 
-.logo { font-family: var(--font-display); font-weight: 800; font-size: 22px; letter-spacing: -0.03em; }
-.logo > span { color: var(--accent); }
-.logo small { font-family: var(--font-mono); font-size: 11px; font-weight: 500; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; margin-left: 6px; }
+.logo { font-family: var(--font-display); font-weight: 800; font-size: 22px; letter-spacing: -0.03em; color: var(--surface);}
+.logo > span { color: var(--sun); }
+.logo small { font-family: var(--font-mono); font-size: 11px; font-weight: 500; color: var(--surface); letter-spacing: 0.08em; text-transform: uppercase; margin-left: 6px; }
 
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-  font: 600 15px/1 var(--font-body); padding: 12px 18px; border-radius: 10px;
+  font: 600 15px/1 var(--font-body); padding: 12px 18px; border-radius: 5px;
   border: 1px solid var(--line); background: var(--surface); color: var(--ink);
   cursor: pointer; text-decoration: none; white-space: nowrap; transition: border-color .15s, background .15s;
 }
-.btn:hover { border-color: var(--accent); }
-.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.btn.primary { background: var(--accent); color: var(--accent-ink); }
 .btn.small { font-size: 13px; padding: 8px 12px; }
 .btn.danger { color: var(--danger); }
 .btn.danger:hover { border-color: var(--danger); }
@@ -59,22 +58,22 @@ a { color: inherit; }
 
 /* --- Connexion --------------------------------------------------------------------------------- */
 .login { min-height: 100vh; display: grid; place-content: center; gap: 20px; padding: 24px 16px; }
-.card { width: min(400px, 100%); background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 32px 28px; display: grid; gap: 16px; box-shadow: 0 12px 40px rgb(20 27 24 / .06); }
-.card h1 { font-size: 28px; }
+.card { width: min(400px, 100%); padding: 32px 28px; display: grid; gap: 16px; }
+.card h1 { font-size: 28px; text-align: center; }
 .card label { display: grid; gap: 6px; font-size: 14px; font-weight: 600; }
 .error { margin: 0; color: var(--danger); font-size: 14px; }
 .back { text-align: center; color: var(--muted); font-size: 14px; }
 
 /* --- Structure : menu latéral (ordinateur) ------------------------------------------------------- */
 .app { display: grid; grid-template-columns: 248px minmax(0, 1fr); min-height: 100vh; }
-.side { border-right: 1px solid var(--line); padding: 24px 16px; display: flex; flex-direction: column; gap: 28px; position: sticky; top: 0; height: 100vh; background: var(--surface); }
+.side { border-right: 1px solid var(--line); padding: 24px 16px; display: flex; flex-direction: column; gap: 28px; position: sticky; top: 0; height: 100vh; background: var(--accent); }
 .side-menu { display: flex; flex-direction: column; gap: 28px; flex: 1; min-height: 0; }
 .menu-btn { display: none; }
-#sections { display: grid; gap: 2px; }
-#sections a { font: 500 15px var(--font-body); color: var(--muted); text-decoration: none; border-radius: 8px; padding: 9px 12px; }
-#sections a:hover { color: var(--ink); background: var(--field); }
-#sections a[aria-current="page"] { color: var(--accent); background: color-mix(in srgb, var(--accent) 9%, transparent); font-weight: 600; }
-.who { margin-top: auto; display: grid; gap: 8px; font-size: 13px; color: var(--muted); overflow-wrap: anywhere; }
+#sections { display: grid; gap: 5px; }
+#sections a { font: 500 15px var(--font-body); color: var(--surface); text-decoration: none; border-radius: 5px; padding: 10px 12px; }
+#sections a:hover { background: #7987ed80; }
+#sections a[aria-current="page"] { color: var(--accent); background: var(--field); font-weight: 600; }
+.who { margin-top: auto; display: grid; gap: 8px; font-size: 13px; color: var(--surface); overflow-wrap: anywhere; }
 
 .main { padding: 32px clamp(16px, 4vw, 48px) 48px; min-width: 0; }
 .main-head { margin-bottom: 24px; }
@@ -82,8 +81,8 @@ a { color: inherit; }
 
 /* --- Tableau de bord ---------------------------------------------------------------------------- */
 .stats { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
-.stat { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px; text-decoration: none; }
-.stat:hover { border-color: var(--accent); }
+.stat { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 18px; text-decoration: none; }
+.stat:hover { border-color: var(--accent); background: #9da7f03f; }
 .stat b { display: block; font-family: var(--font-display); font-size: 32px; font-weight: 800; letter-spacing: -0.03em; }
 .stat span { color: var(--muted); font-size: 14px; }
 .notice { background: var(--field); border-radius: 14px; padding: 20px; color: var(--muted); max-width: 60ch; }
@@ -114,10 +113,10 @@ fieldset > .muted { margin-bottom: 12px; }
 .field > label span { color: var(--danger); }
 input, textarea, select {
   font: 400 16px/1.5 var(--font-body); color: var(--ink); background: var(--field);
-  border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; width: 100%;
+  border: 1px solid var(--line); border-radius: 5px; padding: 10px 12px; width: 100%;
 }
 textarea { resize: vertical; }
-input:focus, textarea:focus, select:focus { outline: none; border-color: var(--accent); background: var(--surface); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 20%, transparent); }
+input:focus, textarea:focus, select:focus { outline: none; background: var(--surface);}
 [aria-invalid="true"] { border-color: var(--danger) !important; }
 .help { color: var(--muted); font-size: 13px; }
 .err { color: var(--danger); font-size: 13px; font-weight: 500; }
@@ -142,7 +141,7 @@ label.check input { width: 18px; height: 18px; flex: none; accent-color: var(--a
   .side { position: sticky; top: 0; z-index: 20; height: auto; padding: 0; gap: 0; border-right: 0; border-bottom: 1px solid var(--line); }
   .side-top { display: flex; align-items: center; justify-content: space-between; height: 60px; padding: 0 16px; }
 
-  .menu-btn { display: grid; place-items: center; width: 44px; height: 44px; margin-right: -8px; border: 0; border-radius: 10px; background: none; color: var(--ink); cursor: pointer; }
+  .menu-btn { display: grid; place-items: center; width: 44px; height: 44px; margin-right: -8px; border: 0; border-radius: 10px; background: var(--field); color: var(--ink); cursor: pointer; }
   .menu-btn:hover { background: var(--field); }
   .menu-btn span, .menu-btn span::before, .menu-btn span::after { display: block; width: 22px; height: 2px; border-radius: 2px; background: currentColor; transition: transform .2s, background .2s; }
   .menu-btn span { position: relative; }
