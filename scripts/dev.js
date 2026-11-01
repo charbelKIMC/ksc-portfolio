@@ -12,7 +12,8 @@ const ROOT = fileURLToPath(new URL('../public/', import.meta.url));
 const API = fileURLToPath(new URL('../api/', import.meta.url));
 const TYPES = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8',
   '.svg': 'image/svg+xml', '.jpg': 'image/jpeg', '.png': 'image/png', '.webp': 'image/webp', '.json': 'application/json',
-  '.txt': 'text/plain; charset=utf-8' };
+  '.txt': 'text/plain; charset=utf-8', '.ico': 'image/x-icon', '.xml': 'application/xml; charset=utf-8',
+  '.webmanifest': 'application/manifest+json' };
 
 if (process.env.DATABASE_URL) {
   console.log('Base : Neon (DATABASE_URL)');

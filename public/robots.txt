@@ -1,3 +1,7 @@
 User-agent: *
 Disallow: /admin
 Disallow: /api/
+# Le contenu du site est chargé par cette route : Google doit pouvoir la lire pour voir la page à jour
+Allow: /api/content
+
+Sitemap: https://charbelkinkpe.com/sitemap.xml

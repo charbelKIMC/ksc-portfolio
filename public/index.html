@@ -10,7 +10,40 @@
   <link rel="canonical" href="https://charbelkinkpe.com/">
   <meta name="theme-color" content="#F1F2EE" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0E1412" media="(prefers-color-scheme: dark)">
-  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <!-- Icônes : favicon.ico pour Google et les anciens navigateurs, SVG pour les autres, PNG pour mobile -->
+  <link rel="icon" href="/favicon.ico" sizes="48x48">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <!-- Données structurées : nom du site et personne, lus par Google pour l'affichage dans les résultats -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://charbelkinkpe.com/#site",
+        "url": "https://charbelkinkpe.com/",
+        "name": "Charbel Kinkpe",
+        "inLanguage": "fr"
+      },
+      {
+        "@type": "Person",
+        "@id": "https://charbelkinkpe.com/#charbel",
+        "name": "Sètondji Charbel Kinkpe",
+        "url": "https://charbelkinkpe.com/",
+        "image": "https://charbelkinkpe.com/img/charbel.jpg",
+        "jobTitle": "Développeur Full Stack & Cloud Native",
+        "address": { "@type": "PostalAddress", "addressLocality": "Parakou", "addressCountry": "BJ" },
+        "sameAs": [
+          "https://www.linkedin.com/in/setondji-charbel-kinkpe",
+          "https://github.com/charbelKIMC"
+        ]
+      }
+    ]
+  }
+  </script>
 
   <!-- Aperçu lors d'un partage (LinkedIn, WhatsApp, X…) -->
   <meta property="og:type" content="website">
