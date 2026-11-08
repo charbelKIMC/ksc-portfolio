@@ -52,8 +52,9 @@ nav.top {
   backdrop-filter: blur(8px); border-bottom: 1px solid var(--line);
 }
 nav.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 14px; }
-.logo { font-family: var(--font-display); font-weight: 800; font-size: 20px; text-decoration: none; letter-spacing: -0.02em; }
-.logo span { color: var(--orange); }
+/* Logo : carré vert « CK » au point orange, le même que l'icône du site */
+.logo { display: inline-flex; flex: none; border-radius: 10px; text-decoration: none; }
+.logo svg { display: block; }
 nav.top ul { display: flex; gap: 22px; list-style: none; padding: 0; font-size: 15px; }
 nav.top ul a { text-decoration: none; color: var(--muted); }
 nav.top ul a:hover { color: var(--ink); }
