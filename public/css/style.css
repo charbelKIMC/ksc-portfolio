@@ -334,9 +334,3 @@ footer .wrap { padding-block: 28px 40px; display: flex; justify-content: space-b
 /* Le contenu arrive de /api/content : la page reste masquée et les animations d'arrivée attendent qu'il soit affiché */
 html.is-loading body { visibility: hidden; }
 html.is-loading * { animation-play-state: paused !important; }
-
-/* Bande de triangles vert et orange en bas de page, reprise de la carte de visite */
-footer::after {
-  content: ""; display: block; height: 10px;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='10'%3E%3Cpath d='M0 10 5 0l5 10z' fill='%2314532D'/%3E%3Cpath d='M10 10l5-10 5 10z' fill='%23D97706'/%3E%3C/svg%3E") repeat-x left bottom / 20px 10px;
-}

@@ -16,7 +16,7 @@ const FALLBACK = {
       "Je veux livrer des solutions qui fonctionnent pour de vrais utilisateurs, pas de simples démonstrations, sur des projets ambitieux au niveau local comme à l'international."
     ],
     goal: 'Devenir ingénieur logiciel spécialisé Cloud Native et concevoir des applications modernes, performantes et évolutives.',
-    email: 'charbelkinkpe@gmail.com',
+    email: 'contact@charbelkinkpe.com',
     photoUrl: 'img/charbel.jpg',
     cvUrl: null,
     contactTitle: 'Un projet ou un poste ? Parlons-en.'
