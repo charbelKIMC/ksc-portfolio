@@ -216,7 +216,7 @@ const FALLBACK = {
   ],
 
   socials: [
-    { label: 'WhatsApp · +229 01 41 77 06 72', url: 'https://wa.me/2290141770672' },
+    { label: 'WhatsApp · +229 01 69 57 99 42', url: 'https://wa.me/2290169579942' },
     { label: 'linkedin.com/in/setondji-charbel-kinkpe', url: 'https://www.linkedin.com/in/setondji-charbel-kinkpe' },
     { label: 'github.com/charbelKIMC', url: 'https://github.com/charbelKIMC' },
     { label: 'charbelkinkpe.com', url: 'https://charbelkinkpe.com' }

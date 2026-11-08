@@ -2,14 +2,14 @@
 :root {
   --bg: #FFFFFF;
   --surface: #FFFFFF;
-  --field: #F4F5F2;     /* champs, lignes répétables, survols */
-  --ink: #141B18;
-  --muted: #5B655F;
-  --line: #E1E4DE;
-  --accent: #2B3FD6;
+  --field: #F6F3EB;     /* champs, lignes répétables, survols */
+  --ink: #1C1917;
+  --muted: #57534E;
+  --line: #E7E1D3;
+  --accent: #14532D;    /* charte : vert forêt et orange, comme le site et la carte de visite */
   --accent-ink: #FFFFFF;
-  --sun: #E2A82C;
-  --ok: #2FA866;
+  --sun: #D97706;
+  --ok: #15803D;
   --danger: #C2412D;
   --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
   --font-body: "Instrument Sans", "Segoe UI", system-ui, sans-serif;
@@ -17,14 +17,14 @@
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #0E1412; --surface: #161E1B; --field: #1C2622; --ink: #E6ECE8; --muted: #9AA59F;
-    --line: #27322D; --accent: #8E9BFF; --accent-ink: #0E1412; --sun: #F0C255; --ok: #4CC584; --danger: #F07A63;
+    --bg: #0B1A11; --surface: #11241A; --field: #18301F; --ink: #F3EEE3; --muted: #A9B4AB;
+    --line: #22392B; --accent: #86EFAC; --accent-ink: #052E16; --sun: #F59E0B; --ok: #4ADE80; --danger: #F07A63;
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #0E1412; --surface: #161E1B; --field: #1C2622; --ink: #E6ECE8; --muted: #9AA59F;
-  --line: #27322D; --accent: #8E9BFF; --accent-ink: #0E1412; --sun: #F0C255; --ok: #4CC584; --danger: #F07A63;
+  --bg: #0B1A11; --surface: #11241A; --field: #18301F; --ink: #F3EEE3; --muted: #A9B4AB;
+  --line: #22392B; --accent: #86EFAC; --accent-ink: #052E16; --sun: #F59E0B; --ok: #4ADE80; --danger: #F07A63;
   color-scheme: dark;
 }
 
@@ -71,7 +71,7 @@ a { color: inherit; }
 .menu-btn { display: none; }
 #sections { display: grid; gap: 5px; }
 #sections a { font: 500 15px var(--font-body); color: var(--surface); text-decoration: none; border-radius: 5px; padding: 10px 12px; }
-#sections a:hover { background: #7987ed80; }
+#sections a:hover { background: rgb(255 255 255 / .14); }
 #sections a[aria-current="page"] { color: var(--accent); background: var(--field); font-weight: 600; }
 .who { margin-top: auto; display: grid; gap: 8px; font-size: 13px; color: var(--surface); overflow-wrap: anywhere; }
 
@@ -82,7 +82,7 @@ a { color: inherit; }
 /* --- Tableau de bord ---------------------------------------------------------------------------- */
 .stats { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
 .stat { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 18px; text-decoration: none; }
-.stat:hover { border-color: var(--accent); background: #9da7f03f; }
+.stat:hover { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 7%, transparent); }
 .stat b { display: block; font-family: var(--font-display); font-size: 32px; font-weight: 800; letter-spacing: -0.03em; }
 .stat span { color: var(--muted); font-size: 14px; }
 .notice { background: var(--field); border-radius: 14px; padding: 20px; color: var(--muted); max-width: 60ch; }
