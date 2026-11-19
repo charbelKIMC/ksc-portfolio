@@ -404,8 +404,8 @@ document.getElementById('copy').addEventListener('click', e => {
   const text = document.getElementById('mail').textContent;
   const btn = e.currentTarget;
   navigator.clipboard.writeText(text).then(() => {
-    btn.textContent = 'Adresse copiée';
-    setTimeout(() => btn.textContent = "Copier l'adresse", 2000);
+    btn.textContent = 'Copie faite !';
+    setTimeout(() => btn.textContent = "Copier", 2000);
   }).catch(() => {
     const range = document.createRange();
     range.selectNodeContents(document.getElementById('mail'));
