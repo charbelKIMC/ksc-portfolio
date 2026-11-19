@@ -34,7 +34,7 @@ const cardHTML = p => {
       <span class="pc-icon" aria-hidden="true">&lt;/&gt;</span>
     </div>
     <div class="pc-body">
-      <h3><a href="#${p.id}">${esc(p.title)}</a></h3>
+      <h3><a href="/projets/${p.id}">${esc(p.title)}</a></h3>
       <p>${esc(p.summary)}</p>
       ${chips(p.stack)}
     </div>
@@ -167,7 +167,7 @@ function renderDetail(p) {
       : `<span class="btn" aria-disabled="true">Démo bientôt disponible</span>`}${p.code ? `<a class="btn" href="${esc(p.code)}" target="_blank" rel="noopener">Voir le code</a>` : ''}</div>`;
   document.getElementById('detail').innerHTML = `
     <div class="wrap">
-      <a class="back" href="#tous-les-projets">${ICONS.arrowLeft}Tous les projets</a>
+      <a class="back" href="/tous-les-projets">${ICONS.arrowLeft}Tous les projets</a>
       <header class="d-head">
         <div style="display:flex;gap:12px;align-items:center;font-family:var(--font-mono);font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em"><span>${esc(p.kind)}</span>${p.year ? `<span>${esc(p.year)}</span>` : ''}${statusHTML(p, 'pill')}</div>
         <h1>${esc(p.title)}</h1>
@@ -189,31 +189,86 @@ function renderDetail(p) {
         <dl class="d-side">${p.facts.map(f => `<div><dt>${esc(f.label)}</dt><dd>${esc(f.value)}</dd></div>`).join('')}</dl>
       </div>
       <nav class="d-nav" aria-label="Autres projets">
-        <a href="#${prev.id}"><small>${ICONS.arrowLeft}Projet précédent</small><span>${esc(prev.title)}</span></a>
-        <a class="next" href="#${next.id}"><small>Projet suivant${ICONS.arrowRight}</small><span>${esc(next.title)}</span></a>
+        <a href="/projets/${prev.id}"><small>${ICONS.arrowLeft}Projet précédent</small><span>${esc(prev.title)}</span></a>
+        <a class="next" href="/projets/${next.id}"><small>Projet suivant${ICONS.arrowRight}</small><span>${esc(next.title)}</span></a>
       </nav>
     </div>`;
 }
 
+function renderNotFound() {
+  document.getElementById('detail').innerHTML = `
+    <div class="wrap">
+      <a class="back" href="/tous-les-projets">${ICONS.arrowLeft}Tous les projets</a>
+      <header class="d-head">
+        <h1>Projet introuvable</h1>
+        <p class="tag">Ce projet n'existe pas ou n'est plus en ligne.</p>
+      </header>
+    </div>`;
+}
+
+// Titre, description et adresse canonique de la page affichée (lus par Google)
+const HOME_META = { title: document.title, description: document.querySelector('meta[name="description"]').content };
+function setMeta({ title, description, path, index = true }) {
+  document.title = title;
+  document.querySelector('meta[name="description"]').content = description;
+  document.querySelector('link[rel="canonical"]').href = `https://charbelkinkpe.com${path}`;
+  let robots = document.querySelector('meta[name="robots"]');
+  if (!index && !robots) robots = Object.assign(document.head.appendChild(document.createElement('meta')), { name: 'robots' });
+  if (robots) robots.content = index ? 'index, follow' : 'noindex';
+}
+
+// Pages : / (accueil, sections en #), /tous-les-projets, /projets/<adresse du projet>
+function go(url, { replace = false } = {}) {
+  history[replace ? 'replaceState' : 'pushState'](null, '', url);
+  route();
+}
+
 function route() {
-  const id = decodeURIComponent(location.hash.slice(1));
-  const p = PROJECTS.find(x => x.id === id);
+  const path = location.pathname.replace(/\/+$/, '') || '/';
+  const hash = decodeURIComponent(location.hash.slice(1));
+  // Anciennes adresses (#tous-les-projets, #claimora…) : redirigées vers les vraies pages
+  if (path === '/' && hash === 'tous-les-projets') return go('/tous-les-projets', { replace: true });
+  if (path === '/' && PROJECTS.some(x => x.id === hash)) return go(`/projets/${hash}`, { replace: true });
+
   const views = { home: document.getElementById('home'), all: document.getElementById('all'), detail: document.getElementById('detail') };
   const wasHome = !views.home.hidden;
   const show = name => Object.entries(views).forEach(([k, el]) => { el.hidden = k !== name; });
-  if (p) {
-    renderDetail(p); show('detail'); window.scrollTo(0, 0);
-  } else if (id === 'tous-les-projets') {
+  const slug = path.match(/^\/projets\/([^/]+)$/)?.[1];
+  if (slug) {
+    const p = PROJECTS.find(x => x.id === decodeURIComponent(slug));
+    if (p) {
+      renderDetail(p);
+      setMeta({ title: `${p.title} · Charbel Kinkpe`, description: p.summary || p.tag || HOME_META.description, path });
+    } else {
+      renderNotFound();
+      setMeta({ title: 'Projet introuvable · Charbel Kinkpe', description: HOME_META.description, path, index: false });
+    }
+    show('detail'); window.scrollTo(0, 0);
+  } else if (path === '/tous-les-projets') {
     renderAll(); show('all'); window.scrollTo(0, 0);
+    setMeta({ title: 'Tous les projets · Charbel Kinkpe', description: `Les projets réalisés ou en cours de ${HOME_META.title.split(' · ')[0]} : web, mobile, SaaS, fintech.`, path });
   } else {
     show('home');
-    const target = id && document.getElementById(id);
+    setMeta({ ...HOME_META, path: '/' });
+    const target = hash && document.getElementById(hash);
     if (target) target.scrollIntoView();
     else if (!wasHome) window.scrollTo(0, 0);
   }
   document.getElementById('nav').classList.remove('open');
   document.getElementById('menu-btn').setAttribute('aria-expanded', 'false');
   drawCovers();
+  trackView();
+}
+
+// Statistiques de visite : une page vue par changement de page, sans cookie, seulement sur le site en ligne,
+// et jamais si le navigateur demande à ne pas être suivi
+let lastTracked = null;
+function trackView() {
+  const path = location.pathname.replace(/\/+$/, '') || '/';
+  if (path === lastTracked || !location.hostname.endsWith('charbelkinkpe.com') || navigator.doNotTrack === '1') return;
+  const referrer = lastTracked === null ? document.referrer : '';   // le site d'origine compte seulement à l'arrivée
+  lastTracked = path;
+  navigator.sendBeacon?.('/api/track', JSON.stringify({ path, referrer }));
 }
 
 document.getElementById('menu-btn').addEventListener('click', () => {
@@ -287,7 +342,20 @@ loadContent().then(c => {
   animateFacts();
 }).finally(() => document.documentElement.classList.remove('is-loading'));
 
-window.addEventListener('hashchange', route);
+window.addEventListener('popstate', route);
+
+// Liens internes : changement de page sans rechargement (le logo, lui, recharge volontairement la page)
+document.addEventListener('click', e => {
+  if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+  const a = e.target.closest('a[href]');
+  if (!a || a.target === '_blank' || a.classList.contains('logo')) return;
+  const url = new URL(a.href);
+  const page = url.pathname.replace(/\/+$/, '') || '/';
+  if (url.origin !== location.origin || !(page === '/' || page === '/tous-les-projets' || page.startsWith('/projets/'))) return;
+  e.preventDefault();
+  if (a.getAttribute('href') === '#top') return window.scrollTo({ top: 0, behavior: 'smooth' });
+  go(url.pathname + url.hash);
+});
 window.addEventListener('resize', drawCovers);
 matchMedia('(prefers-color-scheme: dark)').addEventListener('change', drawCovers);
 new MutationObserver(drawCovers).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });

@@ -46,7 +46,7 @@ export const SECTIONS = {
       title: p.title,
       sub: [p.kind, p.cats.join(' / ')].filter(Boolean).join(' · '),
       badges: [!p.published && 'Brouillon', p.featured && 'À la une', p.status === 'in_progress' ? 'En cours' : 'Terminé'].filter(Boolean),
-      link: p.published ? `/#${p.slug}` : null
+      link: p.published ? `/projets/${p.slug}` : null
     }),
     groups: [
       {

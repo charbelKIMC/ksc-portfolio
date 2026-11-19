@@ -29,10 +29,10 @@ npm test
 
 ## Espace admin (/admin)
 
-1. `npm run admin:password` : choisis ton e-mail et ton mot de passe (12 caractères minimum).
-   Le script écrit dans `.env` `ADMIN_EMAIL`, `ADMIN_PASSWORD_HASH` (mot de passe chiffré, jamais en clair) et `JWT_SECRET`.
+1. Le compte admin est défini par 3 variables d'environnement : `ADMIN_EMAIL`, `ADMIN_PASSWORD_HASH`
+   (empreinte bcrypt, jamais le mot de passe en clair) et `JWT_SECRET` (clé de session aléatoire).
+   Sur Vercel : Settings → Environment Variables. En local : `.env` (jamais envoyé sur GitHub).
 2. `npm run dev` puis http://localhost:3000/admin.
-3. Sur Vercel : ajouter les mêmes 3 variables dans Settings → Environment Variables (valeurs sans les guillemets).
 
 Sections modifiables : Profil (dont la photo et l'e-mail), Projets, Services, Expériences, Compétences, Contact.
 Les listes se réordonnent avec ↑ ↓ ; l'ordre est celui du site. Un projet décoché « Publié » reste en brouillon.
@@ -46,5 +46,4 @@ sinon `public/uploads/` en local (fichiers de test, ignorés par Git).
 API : `/api/admin/:ressource` (lib/admin.js décrit les champs et leurs règles de validation).
 
 Sécurité : session de 8 h dans un cookie HttpOnly, 5 essais ratés par IP et par quart d'heure,
-requêtes refusées si elles viennent d'un autre site. Relancer `npm run admin:password` change le mot de passe
-et déconnecte toutes les sessions.
+requêtes refusées si elles viennent d'un autre site. Changer `JWT_SECRET` déconnecte toutes les sessions.

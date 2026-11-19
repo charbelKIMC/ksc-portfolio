@@ -6,8 +6,10 @@
 //   PUT    ?id=12    → modification (profil : sans id)
 //   DELETE ?id=12    → suppression
 //   PATCH  { order } → nouvel ordre d'affichage
+//   activity : GET ?days=30 → visites et connexions (tableau de bord)
 import { requireAdmin } from '../../lib/auth.js';
 import { create, get, list, remove, reorder, update, NotFoundError, ValidationError } from '../../lib/admin.js';
+import { getActivity } from '../../lib/stats.js';
 
 export default async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store');
@@ -19,6 +21,12 @@ export default async function handler(req, res) {
   const isProfile = name === 'profile';
 
   try {
+    // Tableau de bord : visites et connexions (lecture seule), sur 7, 30 ou 90 jours
+    if (name === 'activity') {
+      if (req.method !== 'GET') return res.status(405).json({ error: 'Méthode non autorisée' });
+      const days = [7, 30, 90].includes(Number(req.query.days)) ? Number(req.query.days) : 30;
+      return res.status(200).json(await getActivity(days));
+    }
     switch (req.method) {
       case 'GET':
         return res.status(200).json(isProfile || id !== null ? await get(name, id) : await list(name));

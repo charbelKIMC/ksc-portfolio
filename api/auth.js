@@ -4,7 +4,7 @@
 //   DELETE → déconnexion
 import {
   checkCredentials, clearFailures, clientIp, createSession, getSession,
-  lockedMinutes, recordFailure, sameOrigin, sessionCookie, SESSION_HOURS
+  lockedMinutes, logLogin, recordFailure, sameOrigin, sessionCookie, SESSION_HOURS
 } from '../lib/auth.js';
 
 export default async function handler(req, res) {
@@ -35,9 +35,11 @@ export default async function handler(req, res) {
       }
       if (!(await checkCredentials(email, password))) {
         await recordFailure(ip);
+        await logLogin(req, false);
         return res.status(401).json({ error: 'E-mail ou mot de passe incorrect.' });
       }
       await clearFailures(ip);
+      await logLogin(req, true);
       res.setHeader('Set-Cookie', sessionCookie(await createSession()));
       return res.status(200).json({ authenticated: true, email: email.trim().toLowerCase(), expiresAt: Date.now() + SESSION_HOURS * 3600_000 });
     }

@@ -27,7 +27,7 @@ if (process.env.DATABASE_URL) {
   useQuery(query);
   console.log('Base : en mémoire (pas de DATABASE_URL)');
 }
-if (!process.env.ADMIN_PASSWORD_HASH) console.log('Compte admin absent : lance « npm run admin:password » pour pouvoir te connecter.');
+if (!process.env.ADMIN_PASSWORD_HASH) console.log('Compte admin absent : ADMIN_EMAIL, ADMIN_PASSWORD_HASH et JWT_SECRET manquent dans .env.');
 
 // Ajoute à req/res ce que Vercel fournit : req.query, req.body (JSON), res.status(), res.json()
 // Les autres corps (fichiers envoyés) restent à lire dans le flux de la requête, comme sur Vercel.
@@ -69,9 +69,14 @@ async function serveFile(path, res) {
   res.end(body);
 }
 
+// Réécritures de vercel.json (/tous-les-projets, /projets/:slug → page d'accueil ; /sitemap.xml → api/sitemap)
+const { rewrites = [] } = JSON.parse(await readFile(new URL('../vercel.json', import.meta.url), 'utf8'));
+const REWRITES = rewrites.map(r => ({ re: new RegExp(`^${r.source.replace(/:\w+/g, '[^/]+')}/?$`), to: r.destination }));
+
 createServer(async (req, res) => {
   const url = new URL(req.url, 'http://localhost');
-  const path = decodeURIComponent(url.pathname);
+  const asked = decodeURIComponent(url.pathname);
+  const path = REWRITES.find(r => r.re.test(asked))?.to ?? asked;
   try {
     if (path.startsWith('/api/')) {
       const name = path.slice(5).replace(/\/$/, '');

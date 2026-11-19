@@ -58,8 +58,44 @@ function showApp(session) {
 
 // --- Vues ----------------------------------------------------------------------------------------
 
+// --- Tableau de bord : contenu, visites du site et connexions à l'admin ---------------------------
+
+const fmtDate = iso => new Date(iso).toLocaleString('fr-FR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+const fmtDay = day => new Date(`${day}T12:00:00`).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
+const countryName = code => { try { return new Intl.DisplayNames(['fr'], { type: 'region' }).of(code); } catch { return code; } };
+const DEVICES = { desktop: 'Ordinateur', mobile: 'Mobile', tablet: 'Tablette' };
+
+const pageName = path => path === '/' ? 'Accueil'
+  : path === '/tous-les-projets' ? 'Tous les projets'
+  : path.startsWith('/projets/') ? `Projet · ${path.slice(9)}` : path;
+
+// « Chrome · Windows » à partir de l'identifiant du navigateur
+function deviceName(ua) {
+  const browser = /Edg\//.test(ua) ? 'Edge' : /OPR\//.test(ua) ? 'Opera' : /Firefox\//.test(ua) ? 'Firefox'
+    : /Chrome\//.test(ua) ? 'Chrome' : /Safari\//.test(ua) ? 'Safari' : 'Navigateur inconnu';
+  const os = /Windows/.test(ua) ? 'Windows' : /iPhone|iPad/.test(ua) ? 'iOS' : /Android/.test(ua) ? 'Android'
+    : /Mac OS X/.test(ua) ? 'macOS' : /Linux/.test(ua) ? 'Linux' : '';
+  return [browser, os].filter(Boolean).join(' · ');
+}
+
+// Liste avec barres proportionnelles (pages, sources, pays, appareils)
+const ranking = (title, rows, label = r => r.name) => `
+  <section class="panel">
+    <h3>${esc(title)}</h3>
+    ${rows.length ? `<ul class="ranking">${rows.map(r => `
+      <li><span class="bar" style="--w:${Math.round(r.views / rows[0].views * 100)}%"></span>
+        <span class="name">${esc(label(r))}</span><b>${r.views}</b></li>`).join('')}</ul>`
+      : '<p class="empty">Pas encore de données.</p>'}
+  </section>`;
+
+const loginRows = rows => rows.length ? `<ul class="log">${rows.map(r => `
+  <li><time>${esc(fmtDate(r.at))}</time><span>${esc(deviceName(r.userAgent))}</span><code>${esc(r.ip)}</code></li>`).join('')}</ul>`
+  : '<p class="empty">Aucune pour l’instant.</p>';
+
+let dashboardDays = 30;
+
 async function renderDashboard(body) {
-  const c = await api('/api/content');
+  const [c, a] = await Promise.all([api('/api/content'), api(`/api/admin/activity?days=${dashboardDays}`)]);
   const counts = [
     ['projects', c.projects.length, 'projets publiés'],
     ['services', c.services.length, 'services'],
@@ -67,10 +103,56 @@ async function renderDashboard(body) {
     ['skills', c.skillGroups.reduce((n, g) => n + g.skills.length, 0), 'compétences'],
     ['socials', c.socials.length, 'liens de contact']
   ];
+  const v = a.visits;
+  const peak = Math.max(1, ...v.series.map(d => d.views));
   body.innerHTML = `
     <div class="stats">${counts.map(([id, n, label]) =>
       `<a class="stat" href="#${id}"><b>${n}</b><span>${esc(label)}</span></a>`).join('')}</div>
-    <p class="muted small" style="margin-top:20px">Après un enregistrement, le site public se met à jour en moins d'une minute.</p>`;
+    <p class="hint">Après un enregistrement, le site public se met à jour en moins d'une minute.</p>
+
+    <div class="dash-head">
+      <h2>Visites du site</h2>
+      <div class="period" role="group" aria-label="Période">${[7, 30, 90].map(d =>
+        `<button type="button" data-days="${d}" aria-pressed="${d === a.days}">${d} jours</button>`).join('')}</div>
+    </div>
+    <div class="stats">
+      <div class="stat"><b>${v.visitors}</b><span>visiteurs</span></div>
+      <div class="stat"><b>${v.views}</b><span>pages vues</span></div>
+      <div class="stat"><b>${v.visitors ? (v.views / v.visitors).toFixed(1).replace('.', ',') : '0'}</b><span>pages par visiteur</span></div>
+    </div>
+    <section class="panel">
+      <h3>Pages vues par jour</h3>
+      <div class="chart" role="img" aria-label="Pages vues par jour sur ${a.days} jours">${v.series.map(d =>
+        `<span style="--h:${Math.round(d.views / peak * 100)}%" title="${esc(fmtDay(d.day))} : ${d.views} page${d.views > 1 ? 's' : ''} vue${d.views > 1 ? 's' : ''}, ${d.visitors} visiteur${d.visitors > 1 ? 's' : ''}"></span>`).join('')}</div>
+      <div class="chart-axis"><span>${esc(fmtDay(v.series[0].day))}</span><span>Aujourd'hui</span></div>
+    </section>
+    <div class="panels">
+      ${ranking('Pages les plus vues', v.pages, r => pageName(r.name))}
+      ${ranking('Provenance', v.sources)}
+      ${ranking('Pays', v.countries, r => r.name === 'Inconnu' ? r.name : countryName(r.name))}
+      ${ranking('Appareils', v.devices, r => DEVICES[r.name] || r.name)}
+    </div>
+    <p class="hint">Sans cookie et sans adresse IP : un visiteur est compté une fois par jour. Les robots sont ignorés.</p>
+
+    <div class="dash-head"><h2>Connexions à l'admin</h2></div>
+    <div class="panels">
+      <section class="panel">
+        <h3>Dernières connexions réussies</h3>
+        ${loginRows(a.logins)}
+      </section>
+      <section class="panel${a.failures.count ? ' warn' : ''}">
+        <h3>Tentatives échouées <small>${a.failures.count} sur ${a.days} jours</small></h3>
+        ${loginRows(a.failures.recent)}
+      </section>
+    </div>
+    <p class="hint">Une connexion que tu ne reconnais pas ? Change ton mot de passe et la clé JWT_SECRET dans Vercel.</p>`;
+
+  body.querySelector('.period').onclick = e => {
+    const b = e.target.closest('[data-days]');
+    if (!b) return;
+    dashboardDays = Number(b.dataset.days);
+    renderDashboard(body).catch(err => toast(err.message, 'error'));
+  };
 }
 
 async function renderList(name, body) {

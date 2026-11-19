@@ -9,8 +9,7 @@
     "dev": "node --env-file-if-exists=.env scripts/dev.js",
     "db:setup": "node --env-file=.env scripts/setup-db.js",
     "db:reset": "node --env-file=.env scripts/setup-db.js --reset",
-    "test": "node --test",
-    "admin:password": "node scripts/admin-password.js"
+    "test": "node --test"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.2.0",

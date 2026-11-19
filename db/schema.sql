@@ -116,3 +116,26 @@ create table if not exists login_attempts (
   created_at timestamptz not null default now()
 );
 create index if not exists login_attempts_ip_idx on login_attempts (ip, created_at);
+
+-- Journal des connexions à l'admin (réussies et ratées), affiché dans le tableau de bord. Gardé 90 jours.
+create table if not exists login_log (
+  id         bigserial primary key,
+  ip         text not null,
+  user_agent text not null default '',
+  success    boolean not null,
+  created_at timestamptz not null default now()
+);
+create index if not exists login_log_created_idx on login_log (created_at desc);
+
+-- Visites du site public. Ni cookie ni adresse IP : « visitor » est une empreinte du jour, impossible à
+-- relier à une personne, qui sert seulement à compter les visiteurs uniques par jour. Gardé 13 mois.
+create table if not exists page_views (
+  id         bigserial primary key,
+  path       text not null,
+  referrer   text,                              -- site d'où vient le visiteur (domaine seulement)
+  country    text,                              -- code pays fourni par Vercel
+  device     text not null default 'desktop',   -- desktop, mobile ou tablet
+  visitor    text not null,
+  created_at timestamptz not null default now()
+);
+create index if not exists page_views_created_idx on page_views (created_at);

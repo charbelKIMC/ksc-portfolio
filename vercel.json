@@ -3,6 +3,11 @@
   "outputDirectory": "public",
   "cleanUrls": true,
   "regions": ["fra1"],
+  "rewrites": [
+    { "source": "/tous-les-projets", "destination": "/" },
+    { "source": "/projets/:slug", "destination": "/" },
+    { "source": "/sitemap.xml", "destination": "/api/sitemap" }
+  ],
   "headers": [
     {
       "source": "/(.*)",
