@@ -14,7 +14,9 @@ export const SECTIONS = {
           { name: 'givenNames', label: 'Prénoms (au-dessus du nom)', required: true },
           { name: 'firstName', label: 'Prénom affiché', required: true },
           { name: 'lastName', label: 'Nom', required: true },
-          { name: 'intro', label: 'Présentation', type: 'textarea', help: 'Mets un passage entre **deux astérisques** pour l\'écrire en gras.' },
+          { name: 'intro', label: 'Accroche', type: 'textarea', help: 'La phrase principale pour tes clients. Mets un passage entre **deux astérisques** pour l\'écrire en gras.' },
+          { name: 'subintro', label: 'Ligne de soutien', type: 'textarea', help: 'Phrase plus petite sous l\'accroche.' },
+          { name: 'recruiterLine', label: 'Ligne recruteur', wide: true, placeholder: 'Recruteur ? Développeur Full Stack & Cloud Native,', help: 'Suivie du lien « voir mon parcours ». Laisse vide pour ne rien afficher.' },
           { name: 'photoUrl', label: 'Photo', type: 'image', folder: 'profile', maxWidth: 1000, help: IMAGE_HELP }
         ]
       },
@@ -23,15 +25,27 @@ export const SECTIONS = {
         fields: [
           { name: 'aboutTitle', label: 'Titre', wide: true },
           { name: 'about', label: 'Texte', type: 'lines', rows: 6, help: 'Un paragraphe par ligne.' },
-          { name: 'goal', label: 'Objectif', type: 'textarea' }
+          { name: 'goalLabel', label: 'Titre de l\'encadré vert', placeholder: 'Côté technique' },
+          { name: 'goal', label: 'Texte de l\'encadré vert', type: 'textarea' }
         ]
       },
       {
         legend: 'Contact',
         fields: [
           { name: 'contactTitle', label: 'Titre de la section', wide: true },
+          { name: 'contactSubtitle', label: 'Sous-titre', wide: true, placeholder: 'Je réponds généralement dans la journée.' },
           { name: 'email', label: 'E-mail affiché', type: 'email', required: true },
           { name: 'cvUrl', label: 'CV (PDF)', type: 'file', folder: 'documents', help: 'PDF de 4 Mo maximum. Laisse vide si tu n\'en mets pas.' }
+        ]
+      },
+      {
+        legend: 'WhatsApp et e-mail préremplis',
+        intro: 'Utilisés par les boutons « Discuter de mon projet », « Parlons de votre besoin », « Écrire sur WhatsApp », « Envoyer un e-mail » et le bouton WhatsApp flottant.',
+        fields: [
+          { name: 'whatsapp', label: 'Numéro WhatsApp', placeholder: '2290169579942', help: 'Format international, chiffres seulement : 229 puis le numéro. Vide : boutons WhatsApp masqués.' },
+          { name: 'whatsappMessage', label: 'Message WhatsApp prérempli', type: 'textarea' },
+          { name: 'mailSubject', label: 'Objet de l\'e-mail', wide: true },
+          { name: 'mailBody', label: 'Texte de l\'e-mail', type: 'textarea', rows: 4 }
         ]
       }
     ]
@@ -115,7 +129,8 @@ export const SECTIONS = {
       fields: [
         { name: 'title', label: 'Titre', required: true },
         { name: 'tag', label: 'Étiquette', placeholder: 'Web' },
-        { name: 'description', label: 'Description', type: 'textarea' }
+        { name: 'description', label: 'Description', type: 'textarea' },
+        { name: 'example', label: 'Exemple (projet)', placeholder: 'claimora', help: 'Adresse d\'un projet : affiche « Exemple : Claimora » avec un lien vers sa page. Laisse vide sinon.' }
       ]
     }]
   },

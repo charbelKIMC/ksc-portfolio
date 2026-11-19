@@ -139,3 +139,18 @@ create table if not exists page_views (
   created_at timestamptz not null default now()
 );
 create index if not exists page_views_created_idx on page_views (created_at);
+
+-- Refonte orientée clients (novembre 2026) : nouveaux textes du profil et lien « Exemple » d'un service.
+-- Ajouts seulement : sans effet sur le contenu existant, et sans changement si on relance db:setup.
+-- subintro : ligne sous l'accroche ; recruiter_line : « Recruteur ? … » ; goal_label : titre de l'encadré vert
+-- whatsapp : numéro en chiffres ; whatsapp_message, mail_subject, mail_body : messages préremplis
+-- services.example : adresse d'un projet donné en exemple
+alter table profile add column if not exists subintro text not null default '';
+alter table profile add column if not exists recruiter_line text not null default '';
+alter table profile add column if not exists goal_label text not null default 'Objectif';
+alter table profile add column if not exists contact_subtitle text not null default '';
+alter table profile add column if not exists whatsapp text not null default '';
+alter table profile add column if not exists whatsapp_message text not null default '';
+alter table profile add column if not exists mail_subject text not null default '';
+alter table profile add column if not exists mail_body text not null default '';
+alter table services add column if not exists example text;

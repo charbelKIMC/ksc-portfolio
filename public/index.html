@@ -6,9 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Les pages /tous-les-projets et /projets/… chargent les fichiers depuis la racine du site -->
   <base href="/">
-  <title>Charbel Kinkpe · Développeur Full Stack & Cloud Native</title>
+  <title>Charbel Kinkpe · Création de sites web et d'applications à Parakou, Bénin</title>
   <meta name="description"
-    content="Portfolio de Sètondji Charbel Kinkpe, développeur Full Stack & Cloud Native basé à Parakou, Bénin. Projets, compétences, services et contact.">
+    content="Sites vitrines, boutiques en ligne, applications de gestion et applications mobiles pour votre activité. De l'idée à la mise en ligne, depuis Parakou, pour tout le Bénin.">
   <link rel="canonical" href="https://charbelkinkpe.com/">
   <meta name="theme-color" content="#FAF7F0" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0B1A11" media="(prefers-color-scheme: dark)">
@@ -52,9 +52,9 @@
   <meta property="og:type" content="website">
   <meta property="og:locale" content="fr_FR">
   <meta property="og:url" content="https://charbelkinkpe.com/">
-  <meta property="og:title" content="Charbel Kinkpe · Développeur Full Stack & Cloud Native">
+  <meta property="og:title" content="Charbel Kinkpe · Création de sites web et d'applications">
   <meta property="og:description"
-    content="Projets, compétences et services de Sètondji Charbel Kinkpe, développeur basé à Parakou, Bénin.">
+    content="Je crée des sites et des applications qui aident votre activité à être trouvée, à vendre et à mieux s'organiser. Parakou, Bénin.">
   <meta property="og:image" content="https://charbelkinkpe.com/img/charbel.jpg">
   <meta name="twitter:card" content="summary">
 
@@ -81,11 +81,10 @@
       <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="menu"
         aria-label="Ouvrir le menu"><span></span></button>
       <ul id="menu">
-        <li><a href="#apropos">À propos</a></li>
-        <li><a href="#competences">Compétences</a></li>
-        <li><a href="#projets">Projets</a></li>
         <li><a href="#services">Services</a></li>
-        <li><a href="#parcours">Expérience</a></li>
+        <li><a href="#projets">Réalisations</a></li>
+        <li><a href="#methode">Méthode</a></li>
+        <li><a href="#apropos">À propos</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
     </div>
@@ -99,13 +98,64 @@
           <h1 id="name"></h1>
         </div>
         <p class="lede" id="intro"></p>
+        <p class="lede-sub" id="subintro"></p>
         <div class="cta">
-          <a class="btn primary" href="#projets">Voir mes projets</a>
-          <a class="btn" href="#contact">Me contacter</a>
+          <a class="btn primary" data-wa href="#contact" target="_blank" rel="noopener">Discuter de mon projet</a>
+          <a class="btn" href="#projets">Voir mes réalisations</a>
         </div>
+        <p class="recruiter" id="recruiter"></p>
       </div>
       <figure class="portrait" style="margin:0"><img id="photo" alt=""></figure>
     </header>
+
+    <section class="band" id="services">
+      <div class="wrap">
+        <div class="label"><b>/</b> Services</div>
+        <div class="body">
+          <div class="section-head">
+            <h2>Ce que je peux faire pour vous</h2>
+            <p class="section-sub">Vous avez un besoin, je m'occupe de la technique. Vous recevez une solution qui
+              fonctionne, simple à utiliser.</p>
+          </div>
+          <div class="services" id="service-list"></div>
+          <p class="section-note">Chaque projet inclut le design de l'interface, la mise en ligne et un accompagnement
+            après la livraison.</p>
+          <div class="cta"><a class="btn primary" data-wa href="#contact" target="_blank" rel="noopener">Parlons de
+              votre besoin</a></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="band" id="projets">
+      <div class="wrap">
+        <div class="label"><b>/</b> Réalisations</div>
+        <div class="body">
+          <h2>Des projets concrets, pas seulement des idées</h2>
+          <div class="projects" id="project-grid"></div>
+          <div class="cta"><a class="btn" href="/tous-les-projets" id="all-btn">Voir tous les projets</a></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="band" id="methode">
+      <div class="wrap">
+        <div class="label"><b>/</b> Méthode</div>
+        <div class="body">
+          <div class="section-head">
+            <h2>Simple, clair, sans surprise</h2>
+            <p class="intro">Vous savez toujours où en est votre projet.</p>
+          </div>
+
+          <ol class="method">
+            <li><b>On discute</b><span>Vous m'expliquez votre besoin, je vous pose les bonnes questions.</span></li>
+            <li><b>Je vous montre</b><span>Vous voyez une maquette avant tout développement.</span></li>
+            <li><b>Je construis</b><span>Je développe et vous tiens informé à chaque étape.</span></li>
+            <li><b>Je livre et j'accompagne</b><span>Mise en ligne, prise en main, et suivi après la livraison.</span>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
 
     <section class="band" id="apropos">
       <div class="wrap">
@@ -130,28 +180,6 @@
       </div>
     </section>
 
-    <section class="band" id="projets">
-      <div class="wrap">
-        <div class="label"><b>/</b> Projets</div>
-        <div class="body">
-          <h2>Mes réalisations</h2>
-          <div class="projects" id="project-grid"></div>
-          <div class="cta"><a class="btn" href="/tous-les-projets" id="all-btn">Voir tous les projets</a></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="band" id="services">
-      <div class="wrap">
-        <div class="label"><b>/</b> Services</div>
-        <div class="body">
-          <h2>Services offerts</h2>
-          <div class="services" id="service-list"></div>
-          <div class="cta"><a class="btn primary" href="#contact">Discuter de votre projet</a></div>
-        </div>
-      </div>
-    </section>
-
     <section class="band" id="parcours">
       <div class="wrap">
         <div class="label"><b>/</b> Expérience</div>
@@ -168,7 +196,14 @@
       <div class="wrap">
         <div class="label"><b>/</b> Contact</div>
         <div class="body">
-          <h2 id="contact-title"></h2>
+          <div class="section-head">
+            <h2 id="contact-title"></h2>
+            <p class="section-sub" id="contact-subtitle"></p>
+          </div>
+          <div class="contact-actions">
+            <a class="btn primary" data-wa href="#contact" target="_blank" rel="noopener">Écrire sur WhatsApp</a>
+            <a class="btn" id="mail-btn" href="#contact">Envoyer un e-mail</a>
+          </div>
           <div class="mailrow">
             <span class="mail" id="mail"></span>
             <button class="btn" id="copy" type="button">Copier l'adresse</button>
@@ -182,7 +217,10 @@
 
   <main id="all" hidden>
     <div class="wrap">
-      <a class="back" href="/#projets"><svg class="icon-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Retour à l'accueil</a>
+      <a class="back" href="/#projets"><svg class="icon-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M19 12H5M11 6l-6 6 6 6" />
+        </svg>Retour à l'accueil</a>
       <header class="d-head">
         <p class="eyebrow">Portfolio</p>
         <h1>Tous les projets</h1>
@@ -195,8 +233,19 @@
 
   <main id="detail" hidden></main>
 
+  <a class="wa-float" data-wa href="#contact" target="_blank" rel="noopener" aria-label="Écrire sur WhatsApp" hidden>
+    <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true">
+      <path fill="currentColor"
+        d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.64.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.61-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.06 2.88 1.21 3.07.15.2 2.1 3.2 5.08 4.48.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.08 1.76-.72 2.01-1.42.25-.7.25-1.29.17-1.42-.07-.12-.27-.2-.57-.35zM12.04 21.5h-.01a9.5 9.5 0 0 1-4.84-1.33l-.35-.21-3.6.94.96-3.5-.23-.36a9.46 9.46 0 0 1-1.45-5.05c0-5.24 4.27-9.5 9.52-9.5a9.46 9.46 0 0 1 6.73 2.79 9.43 9.43 0 0 1 2.78 6.72c0 5.24-4.27 9.5-9.51 9.5zm8.1-17.6A11.4 11.4 0 0 0 12.04.5C5.73.5.6 5.63.6 11.94c0 2.02.53 3.99 1.53 5.72L.5 23.5l5.98-1.57a11.42 11.42 0 0 0 5.46 1.39h.01c6.3 0 11.44-5.13 11.44-11.44 0-3.06-1.19-5.93-3.35-8.09z" />
+    </svg>
+  </a>
+
   <footer>
-    <div class="wrap"><span id="copyright"></span><a class="to-top" href="#top">Retour en haut<svg class="icon-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg></a></div>
+    <div class="wrap"><span id="copyright"></span><a class="to-top" href="#top">Retour en haut<svg class="icon-arrow"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 19V5M6 11l6-6 6 6" />
+        </svg></a></div>
   </footer>
 </body>
 

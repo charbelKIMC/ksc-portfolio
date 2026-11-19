@@ -22,10 +22,14 @@ export async function seed(query, c) {
   const p = c.profile;
   await query(
     `insert into profile (id, given_names, first_name, last_name, location, status_text, available, intro,
-                          about_title, about, goal, email, photo_url, cv_url, contact_title)
-     values (1, $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)`,
+                          about_title, about, goal, email, photo_url, cv_url, contact_title,
+                          subintro, recruiter_line, goal_label, contact_subtitle, whatsapp, whatsapp_message,
+                          mail_subject, mail_body)
+     values (1, $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22)`,
     [p.givenNames, p.firstName, p.lastName, p.location, p.statusText, p.available, p.intro,
-     p.aboutTitle, p.about, p.goal, p.email, p.photoUrl, p.cvUrl, p.contactTitle]
+     p.aboutTitle, p.about, p.goal, p.email, p.photoUrl, p.cvUrl, p.contactTitle,
+     p.subintro, p.recruiterLine, p.goalLabel, p.contactSubtitle, p.whatsapp, p.whatsappMessage,
+     p.mailSubject, p.mailBody]
   );
 
   for (const [i, r] of c.projects.entries()) {
@@ -45,8 +49,8 @@ export async function seed(query, c) {
   }
 
   for (const [i, s] of c.services.entries()) {
-    await query('insert into services (tag, title, description, position) values ($1, $2, $3, $4)',
-      [s.tag, s.title, s.description, i]);
+    await query('insert into services (tag, title, description, example, position) values ($1, $2, $3, $4, $5)',
+      [s.tag, s.title, s.description, s.example ?? null, i]);
   }
 
   for (const e of c.experiences) {

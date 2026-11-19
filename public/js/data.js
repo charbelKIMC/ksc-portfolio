@@ -3,23 +3,30 @@
 // Une fois la base en place, c'est l'espace administrateur qui fait foi : ce fichier n'est plus qu'une sauvegarde.
 const FALLBACK = {
   profile: {
-    givenNames: 'Sètondji Charbel',
+    givenNames: 'Sètondji',
     firstName: 'Charbel',
     lastName: 'Kinkpe',
     location: 'Parakou, Bénin',
     statusText: 'ouvert aux opportunités',
     available: true,
-    intro: "Développeur **Full Stack & Cloud Native**. Je conçois des produits complets, de l'architecture à la mise en production, avec une conception solide avant la première ligne de code.",
-    aboutTitle: 'Du web et du mobile vers les architectures cloud natives.',
+    intro: "Je crée des sites et des applications qui aident votre activité à être trouvée, à vendre et à mieux s'organiser.",
+    subintro: "Site vitrine, boutique en ligne, application de gestion ou application mobile : je vous accompagne de l'idée à la mise en ligne, depuis Parakou, pour tout le Bénin et au-delà.",
+    recruiterLine: 'Recruteur ? Développeur Full Stack & Cloud Native,',
+    aboutTitle: 'Un développeur qui pense d’abord à votre activité',
     about: [
-      "Titulaire d'une Licence en Systèmes Informatiques et Logiciels (SIL), j'ai construit mon parcours autour d'une progression constante : développement web, mobile, puis architectures cloud natives.",
-      "Je veux livrer des solutions qui fonctionnent pour de vrais utilisateurs, pas de simples démonstrations, sur des projets ambitieux au niveau local comme à l'international."
+      "Titulaire d'une Licence en Systèmes Informatiques et Logiciels, je construis des solutions web et mobiles complètes, du design à la mise en production. Mon objectif n'est pas seulement d'écrire du code : c'est de livrer un outil que vos clients utilisent vraiment et qui fait avancer votre activité."
     ],
-    goal: 'Devenir ingénieur logiciel spécialisé Cloud Native et concevoir des applications modernes, performantes et évolutives.',
+    goalLabel: 'Côté technique',
+    goal: 'Full Stack & Cloud Native, avec une approche orientée produit, utilisateurs et résultats.',
     email: 'contact@charbelkinkpe.com',
     photoUrl: 'img/charbel.jpg',
     cvUrl: null,
-    contactTitle: 'Un projet ou un poste ? Parlons-en.'
+    contactTitle: 'Un projet ou un poste ? Parlons-en.',
+    contactSubtitle: 'Je réponds généralement dans la journée.',
+    whatsapp: '2290169579942',
+    whatsappMessage: "Bonjour Charbel, j'ai vu votre portfolio et j'aimerais parler d'un projet.",
+    mailSubject: 'Demande de projet depuis votre portfolio',
+    mailBody: "Bonjour Charbel, je m'appelle [nom]. J'ai un projet de [type de projet]. Mon besoin : [description]. Délai souhaité : [délai]. Merci de me recontacter."
   },
 
   // Projets : cartes de l'accueil (featured), page « Tous les projets » et page détails (#slug).
@@ -168,10 +175,10 @@ const FALLBACK = {
   ],
 
   services: [
-    { tag: 'Web', title: 'Développement web Full Stack', description: 'Sites et applications web modernes, performants et sécurisés, adaptés aux besoins de chaque client et optimisés pour le référencement.' },
-    { tag: 'Mobile', title: 'Applications mobiles', description: 'Applications simples et efficaces pour Android et iOS, avec une interface soignée et une bonne expérience utilisateur.' },
-    { tag: 'Design', title: 'UI/UX Design', description: "Interfaces modernes, intuitives et centrées sur l'utilisateur, pensées pour l'engagement et la satisfaction." },
-    { tag: 'Gestion', title: 'Gestion de projet informatique', description: "Suivi complet du cycle de vie d'un projet, de l'idée au déploiement, selon les bonnes pratiques (cycle en V, agile)." }
+    { tag: 'Site vitrine', title: 'Être visible en ligne', description: 'Personne ne vous trouve sur internet ? Je crée un site professionnel, rapide et bien référencé sur Google, qui présente votre activité et vous apporte des contacts.', example: null },
+    { tag: 'Boutique en ligne', title: 'Vendre en ligne', description: 'Vous voulez vendre vos produits même quand votre boutique est fermée ? Je mets en place une boutique en ligne claire, avec gestion des commandes et paiements adaptés à vos clients.', example: null },
+    { tag: 'Application de gestion', title: 'Simplifier votre gestion', description: 'Vous gérez encore tout sur papier, Excel ou WhatsApp ? Je développe une application sur mesure pour suivre vos ventes, vos clients, vos réclamations ou vos équipes.', example: 'claimora' },
+    { tag: 'Application mobile', title: 'Une application pour vos clients', description: 'Vous voulez être dans la poche de vos clients ? Je conçois des applications mobiles Android et iOS, belles et faciles à prendre en main.', example: null }
   ],
 
   // Dates au format AAAA-MM ; end: null = poste actuel. months : durée affichée et additionnée dans les chiffres clés.
@@ -216,9 +223,9 @@ const FALLBACK = {
   ],
 
   socials: [
-    { label: 'WhatsApp · +229 01 69 57 99 42', url: 'https://wa.me/2290169579942' },
-    { label: 'linkedin.com/in/setondji-charbel-kinkpe', url: 'https://www.linkedin.com/in/setondji-charbel-kinkpe' },
-    { label: 'github.com/charbelKIMC', url: 'https://github.com/charbelKIMC' },
-    { label: 'charbelkinkpe.com', url: 'https://charbelkinkpe.com' }
+    { label: 'WhatsApp', url: 'https://wa.me/2290169579942' },
+    { label: 'LinkedIn', url: 'https://www.linkedin.com/in/setondji-charbel-kinkpe' },
+    { label: 'GitHub', url: 'https://github.com/charbelKIMC' },
+    { label: 'Portfolio', url: 'https://charbelkinkpe.com' }
   ]
 };

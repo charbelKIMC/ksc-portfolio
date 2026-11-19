@@ -36,7 +36,6 @@ const cardHTML = p => {
     <div class="pc-body">
       <h3><a href="/projets/${p.id}">${esc(p.title)}</a></h3>
       <p>${esc(p.summary)}</p>
-      ${chips(p.stack)}
     </div>
     <div class="pc-foot"><span class="go">Voir le projet </span>${code}</div>
   </article>`;
@@ -84,25 +83,43 @@ function renderProfile(p) {
   $('given-names').textContent = p.givenNames;
   $('name').innerHTML = `${esc(p.firstName)} <span class="last">${esc(p.lastName)}</span>`;
   $('intro').innerHTML = rich(p.intro);
+  $('subintro').textContent = p.subintro || '';
+  $('subintro').hidden = !p.subintro;
+  $('recruiter').innerHTML = p.recruiterLine ? `${esc(p.recruiterLine)} <a href="#parcours">voir mon parcours ${ICONS.arrowRight}</a>` : '';
+  $('recruiter').hidden = !p.recruiterLine;
   $('photo').src = p.photoUrl || 'img/charbel.jpg';
   $('photo').alt = `Portrait de ${p.firstName} ${p.lastName}`;
   $('about-title').textContent = p.aboutTitle;
   $('about').innerHTML = p.about.map(t => `<p>${rich(t)}</p>`).join('');
-  $('goal').innerHTML = p.goal ? `<b>Objectif</b>${esc(p.goal)}` : '';
+  $('goal').innerHTML = p.goal ? `<b>${esc(p.goalLabel || 'Objectif')}</b>${esc(p.goal)}` : '';
   $('goal').hidden = !p.goal;
   $('contact-title').textContent = p.contactTitle;
+  $('contact-subtitle').textContent = p.contactSubtitle || '';
+  $('contact-subtitle').hidden = !p.contactSubtitle;
   $('mail').textContent = p.email;
-  $('copyright').textContent = `© ${new Date().getFullYear()} ${p.givenNames} ${p.lastName}`;
+  const fullName = p.givenNames.includes(p.firstName) ? `${p.givenNames} ${p.lastName}` : `${p.givenNames} ${p.firstName} ${p.lastName}`;
+  $('copyright').textContent = `© ${new Date().getFullYear()} ${fullName}`;
+
+  // Boutons WhatsApp (accueil, services, contact, bouton flottant) : message prérempli ; masqués sans numéro
+  document.querySelectorAll('[data-wa]').forEach(a => {
+    if (p.whatsapp) a.href = `https://wa.me/${p.whatsapp}${p.whatsappMessage ? `?text=${encodeURIComponent(p.whatsappMessage)}` : ''}`;
+    else if (a.classList.contains('wa-float')) a.hidden = true;
+    else { a.href = '#contact'; a.removeAttribute('target'); }
+  });
+  $('home').parentElement.querySelector('.wa-float').hidden = !p.whatsapp;
+
+  // E-mail prérempli : ouvre la messagerie avec l'objet et le texte déjà écrits
+  const mailParams = [p.mailSubject && `subject=${encodeURIComponent(p.mailSubject)}`, p.mailBody && `body=${encodeURIComponent(p.mailBody)}`].filter(Boolean).join('&');
+  $('mail-btn').href = `mailto:${p.email}${mailParams ? `?${mailParams}` : ''}`;
 }
 
 // Chiffres clés calculés à partir du contenu : rien à mettre à jour à la main
 function renderFacts(c) {
   const months = c.experiences.reduce((sum, e) => sum + e.months, 0);
-  const techs = c.skillGroups.filter(g => g.kind === 'tech').reduce((sum, g) => sum + g.skills.length, 0);
   const facts = [
     [c.projects.length, `${plural(c.projects.length, 'projet')} ${plural(c.projects.length, 'réalisé')} ou en cours`],
     [durationLabel(months), "d'expérience professionnelle"],
-    [techs, `${plural(techs, 'technologie')} ${plural(techs, 'maîtrisée')}`]
+    ['24 h', 'pour une première réponse']
   ];
   $('facts').innerHTML = facts.map(([n, label]) => `<div><b>${esc(n)}</b><span>${esc(label)}</span></div>`).join('');
 }
@@ -115,12 +132,17 @@ function renderSkills(groups) {
   $('soft').hidden = !soft.length;
 }
 
-function renderServices(services) {
+function renderServices(services, projects) {
+  const example = slug => {
+    const p = slug && projects.find(x => x.id === slug);
+    return p ? `<p class="svc-example">Exemple : <a href="/projets/${p.id}">${esc(p.title)}</a></p>` : '';
+  };
   $('service-list').innerHTML = services.map(s => `
         <article class="service">
           ${s.tag ? `<span class="svc-tag">${esc(s.tag)}</span>` : ''}
           <h3>${esc(s.title)}</h3>
           <p>${esc(s.description)}</p>
+          ${example(s.example)}
         </article>`).join('');
 }
 
@@ -310,6 +332,22 @@ function drawCovers() {
   });
 }
 // Chiffres clés : comptage jusqu'à la valeur finale quand ils apparaissent à l'écran
+// Animation d'arrivée des sections de l'accueil : chaque élément apparaît une seule fois en entrant à l'écran
+// (pour les services, seul le contenu des cartes apparaît, les cartes restent en place),
+// puis reste net (pas d'effet lié à la position du défilement)
+function revealOnArrival() {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
+  const items = document.querySelectorAll(`#home section.band .label, #home section.band .body > h2, #home .section-head,
+    #home .service > *, #home .pcard, #home .method li, #home .facts, #home .goal, #home .skills > div, #home .soft,
+    #home .timeline > li, #home .contact-actions, #home .mailrow, #home .socials`);
+  const io = new IntersectionObserver(entries => entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    e.target.classList.add('is-in');
+    io.unobserve(e.target);
+  }), { rootMargin: '0px 0px -8% 0px' });
+  items.forEach(el => { el.classList.add('reveal'); io.observe(el); });
+}
+
 function animateFacts() {
   if (matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
   const countUp = el => {
@@ -335,11 +373,12 @@ loadContent().then(c => {
   renderFacts(c);
   renderSkills(c.skillGroups);
   renderProjects(c.projects);
-  renderServices(c.services);
+  renderServices(c.services, c.projects);
   renderExperiences(c.experiences);
   renderSocials(c.socials);
   route();
   animateFacts();
+  revealOnArrival();
 }).finally(() => document.documentElement.classList.remove('is-loading'));
 
 window.addEventListener('popstate', route);
